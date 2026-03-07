@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="HydroLoop Farm — Système agricole modulaire pour plantes à haute valeur. Hydroponie NFT, architecture verticale, traçabilité intégrée.">
+<title>HydroLoop Farm — Agriculture de précision modulaire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+
+/* ═══════════════════════════════════════════════════════
+   RESET & TOKENS
+═══════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+:root {
+  --ink:       #0e1a11;
+  --forest:    #1a5c38;
+  --moss:      #2d7a50;
+  --sage:      #7aaa8a;
+  --mist:      #d6ead9;
+  --cream:     #f8f4ed;
+  --gold:      #c8961e;
+  --gold-lt:   #fdf3dc;
+  --stone:     #e8e4dc;
+  --pale:      #f4f1ec;
+  --white:     #ffffff;
+
+  --serif:     'Cormorant Garamond', Georgia, serif;
+  --mono:      'DM Mono', monospace;
+  --sans:      'Instrument Sans', sans-serif;
+
+  --ease:      cubic-bezier(0.16, 1, 0.3, 1);
+
+  --nav-h:     64px;
+
+  /* Layout */
+  --px:        5rem;
+  --py:        7rem;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--cream);
+  color: var(--ink);
+  overflow-x: hidden;
+  line-height: 1.65;
+}
+
+/* Grain texture overlay */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9999; opacity: 0.025;
+}
+
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+
+/* ═══════════════════════════════════════════════════════
+   LANGUAGE SYSTEM
+═══════════════════════════════════════════════════════ */
+[data-lang="fr"] [lang="en"],
+[data-lang="en"] [lang="fr"] { display: none !important; }
+[data-lang="fr"] [lang="fr"],
+[data-lang="en"] [lang="en"] { display: revert; }
+
+/* ═══════════════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════════════ */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  z-index: 500;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 var(--px);
+  background: rgba(248,244,237,0.94);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(26,92,56,0.09);
+  transition: box-shadow 0.3s;
+}
+
+#nav.scrolled { box-shadow: 0 2px 24px rgba(14,26,17,0.07); }
+
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+
+.nav-logo-mark {
+  width: 34px; height: 34px;
+  background: var(--forest); border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+}
+.nav-logo-mark svg { width: 17px; height: 17px; stroke: white; fill: none; stroke-width: 1.6; }
+
+.nav-logo-text {
+  font-family: var(--serif);
+  font-size: 1.1rem; font-weight: 500;
+  color: var(--ink); letter-spacing: 0.01em;
+}
+
+.nav-center {
+  display: flex; gap: 2rem; list-style: none;
+  align-items: center;
+}
+.nav-center a {
+  font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.09em; text-transform: uppercase;
+  color: var(--ink); text-decoration: none;
+  opacity: 0.55; transition: opacity 0.2s;
+}
+.nav-center a:hover { opacity: 1; }
+
+.nav-right { display: flex; align-items: center; gap: 1rem; }
+
+/* Language toggle */
+.lang-toggle {
+  display: flex; align-items: center; gap: 0;
+  border: 1px solid rgba(26,92,56,0.2); border-radius: 3px;
+  overflow: hidden;
+}
+.lang-btn {
+  padding: 0.35rem 0.7rem;
+  font-family: var(--mono); font-size: 0.62rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  background: transparent; border: none; cursor: pointer;
+  color: var(--ink); opacity: 0.4;
+  transition: all 0.2s;
+}
+.lang-btn.active {
+  background: var(--forest); color: white; opacity: 1;
+}
+
+.nav-cta {
+  background: var(--forest); color: white !important; opacity: 1 !important;
+  padding: 0.5rem 1.2rem; border-radius: 3px;
+  font-size: 0.75rem !important; font-weight: 500 !important;
+  letter-spacing: 0.06em !important; text-transform: uppercase !important;
+  text-decoration: none; transition: background 0.2s;
+}
+.nav-cta:hover { background: var(--moss) !important; }
+
+/* Mobile hamburger */
+.nav-burger {
+  display: none; flex-direction: column; gap: 5px;
+  background: none; border: none; cursor: pointer; padding: 4px;
+}
+.nav-burger span {
+  display: block; width: 22px; height: 1.5px;
+  background: var(--ink); transition: all 0.25s;
+}
+
+/* Mobile nav drawer */
+.nav-drawer {
+  display: none;
+  position: fixed; top: var(--nav-h); left: 0; right: 0; bottom: 0;
+  background: var(--cream); z-index: 499;
+  flex-direction: column;
+  padding: 2.5rem var(--px);
+  gap: 0;
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.35s var(--ease);
+}
+.nav-drawer.open { transform: translateX(0); }
+.nav-drawer a {
+  font-size: 1.5rem; font-family: var(--serif);
+  font-weight: 300; color: var(--ink); text-decoration: none;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--stone);
+  opacity: 0.8;
+}
+.nav-drawer a:hover { opacity: 1; color: var(--forest); }
+.nav-drawer .drawer-bottom {
+  margin-top: 2rem;
+  display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;
+}
+
+/* ═══════════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════════ */
+#hero {
+  min-height: 100vh;
+  display: grid; grid-template-columns: 1fr 1fr;
+  padding-top: var(--nav-h);
+  position: relative;
+}
+
+.hero-left {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 5rem var(--px) 5rem;
+  position: relative; z-index: 2;
+}
+
+.eyebrow {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 2rem;
+  opacity: 0; animation: fadeUp 0.8s var(--ease) 0.15s forwards;
+}
+.eyebrow-line { width: 28px; height: 1px; background: var(--gold); flex-shrink: 0; }
+.eyebrow-text {
+  font-family: var(--mono); font-size: 0.65rem;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold);
+}
+
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(2.8rem, 4.5vw, 4.2rem);
+  font-weight: 300; line-height: 1.04; color: var(--ink);
+  margin-bottom: 0.5rem;
+  opacity: 0; animation: fadeUp 0.9s var(--ease) 0.25s forwards;
+}
+.hero-title em { font-style: italic; color: var(--forest); }
+
+.hero-sub {
+  font-family: var(--serif); font-size: 1.3rem;
+  font-weight: 300; font-style: italic; color: var(--forest);
+  margin-bottom: 2rem;
+  opacity: 0; animation: fadeUp 0.9s var(--ease) 0.35s forwards;
+}
+
+.hero-desc {
+  font-size: 0.92rem; line-height: 1.82;
+  color: rgba(14,26,17,0.68); max-width: 460px; margin-bottom: 2.75rem;
+  opacity: 0; animation: fadeUp 0.9s var(--ease) 0.45s forwards;
+}
+
+.hero-actions {
+  display: flex; gap: 0.875rem; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp 0.9s var(--ease) 0.55s forwards;
+}
+
+.btn-primary {
+  background: var(--forest); color: white;
+  padding: 0.85rem 1.875rem; border: none; border-radius: 3px;
+  font-family: var(--sans); font-size: 0.82rem;
+  font-weight: 500; letter-spacing: 0.04em;
+  cursor: pointer; text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-primary:hover { background: var(--moss); transform: translateY(-1px); }
+
+.btn-ghost {
+  background: transparent; color: var(--forest);
+  padding: 0.85rem 1.875rem;
+  border: 1px solid rgba(26,92,56,0.4); border-radius: 3px;
+  font-family: var(--sans); font-size: 0.82rem;
+  font-weight: 500; letter-spacing: 0.04em;
+  cursor: pointer; text-decoration: none;
+  transition: all 0.2s;
+}
+.btn-ghost:hover { border-color: var(--forest); background: var(--mist); }
+
+.hero-right {
+  position: relative; overflow: hidden;
+  opacity: 0; animation: fadeIn 1.2s var(--ease) 0.3s forwards;
+}
+
+.hero-bg {
+  width: 100%; height: 100%;
+  background:
+    radial-gradient(ellipse at 30% 55%, rgba(45,122,80,0.55) 0%, transparent 58%),
+    radial-gradient(ellipse at 75% 20%, rgba(200,150,30,0.13) 0%, transparent 48%),
+    linear-gradient(155deg, #1a5c38 0%, #0d2418 100%);
+  display: flex; align-items: center; justify-content: center; padding: 3.5rem;
+}
+
+.hero-svg-wrap {
+  width: 100%; max-width: 400px;
+  opacity: 0; animation: fadeUp 1s var(--ease) 0.8s forwards;
+}
+
+/* ═══════════════════════════════════════════════════════
+   STATS BAR
+═══════════════════════════════════════════════════════ */
+.stats-bar {
+  background: var(--ink);
+  display: grid; grid-template-columns: repeat(4,1fr);
+  padding: 0 var(--px);
+}
+
+.stat {
+  padding: 2.25rem 1.5rem;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  opacity: 0; transform: translateY(18px);
+  transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
+}
+.stat:last-child { border-right: none; }
+.stat.vis { opacity: 1; transform: translateY(0); }
+
+.stat-n {
+  font-family: var(--serif); font-size: 2.6rem;
+  font-weight: 300; color: white; line-height: 1;
+  margin-bottom: 0.35rem;
+}
+.stat-n em { color: var(--gold); font-style: italic; }
+
+.stat-l {
+  font-family: var(--mono); font-size: 0.62rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(255,255,255,0.38);
+}
+
+/* ═══════════════════════════════════════════════════════
+   SHARED SECTION STYLES
+═══════════════════════════════════════════════════════ */
+.section { padding: var(--py) var(--px); }
+.section.alt { background: var(--pale); }
+.section.dark { background: var(--ink); }
+.section.green { background: var(--forest); }
+.section.white { background: var(--white); }
+
+.sec-header {
+  display: flex; align-items: flex-start; gap: 2.5rem;
+  margin-bottom: 4rem;
+}
+.sec-num {
+  font-family: var(--mono); font-size: 0.62rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--gold); margin-top: 0.45rem; flex-shrink: 0;
+}
+.sec-title {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 300; line-height: 1.1; color: var(--ink);
+}
+.sec-title em { font-style: italic; color: var(--forest); }
+.sec-sub {
+  font-size: 0.92rem; line-height: 1.8;
+  color: rgba(14,26,17,0.6); max-width: 560px; margin-top: 0.875rem;
+}
+
+.dark .sec-title, .dark .sec-title em { color: white; }
+.dark .sec-sub { color: rgba(255,255,255,0.5); }
+.dark .sec-num { color: var(--gold); }
+.green .sec-title, .green .sec-title em { color: white; }
+.green .sec-sub { color: rgba(255,255,255,0.65); }
+.green .sec-num { color: var(--gold); }
+
+/* ═══════════════════════════════════════════════════════
+   SCROLL ANIMATIONS
+═══════════════════════════════════════════════════════ */
+.fu { opacity: 0; transform: translateY(22px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+.fu.vis { opacity: 1; transform: translateY(0); }
+.fx { opacity: 0; transform: translateX(-20px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
+.fx.vis { opacity: 1; transform: translateX(0); }
+
+/* ═══════════════════════════════════════════════════════
+   SECTION 01 — ARCHITECTURE
+═══════════════════════════════════════════════════════ */
+.arch-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;
+}
+
+.feature-stack {
+  display: flex; flex-direction: column;
+  gap: 1px; background: var(--stone);
+  border: 1px solid var(--stone); border-radius: 5px; overflow: hidden;
+}
+
+.feat {
+  background: var(--white); padding: 1.4rem 1.75rem;
+  display: flex; gap: 1.25rem; align-items: flex-start;
+  transition: background 0.2s;
+}
+.feat:hover { background: var(--mist); }
+
+.feat-icon {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--mist);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 2px;
+}
+.feat-icon svg { width: 15px; height: 15px; stroke: var(--forest); fill: none; stroke-width: 1.6; }
+
+.feat-h { font-size: 0.84rem; font-weight: 600; color: var(--ink); margin-bottom: 0.25rem; }
+.feat-p { font-size: 0.8rem; color: rgba(14,26,17,0.58); line-height: 1.6; }
+
+/* Module spec card */
+.spec-card {
+  background: var(--forest); border-radius: 8px;
+  overflow: hidden; position: sticky; top: calc(var(--nav-h) + 1.5rem);
+}
+.spec-card-head {
+  padding: 1.25rem 1.75rem;
+  border-bottom: 1px solid rgba(255,255,255,0.09);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.spec-card-title {
+  font-family: var(--mono); font-size: 0.62rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+}
+.spec-badge {
+  background: var(--gold); color: var(--ink);
+  font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.18rem 0.5rem; border-radius: 2px; font-weight: 500;
+}
+.spec-body { padding: 0.25rem 0; }
+.spec-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 0.7rem 1.75rem;
+  border-bottom: 1px solid rgba(255,255,255,0.055);
+}
+.spec-row:last-child { border-bottom: none; }
+.spec-k {
+  font-family: var(--mono); font-size: 0.62rem;
+  letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.38);
+}
+.spec-v {
+  font-family: var(--serif); font-size: 1rem;
+  color: white; font-weight: 300;
+}
+.spec-v strong { color: var(--gold); font-weight: 400; font-style: italic; }
+
+/* ═══════════════════════════════════════════════════════
+   SECTION 02 — BREVET
+═══════════════════════════════════════════════════════ */
+.patent-grid {
+  display: grid; grid-template-columns: 1fr 1.35fr; gap: 5rem; align-items: start;
+}
+
+.patent-badge-row {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: var(--gold-lt); border: 1px solid rgba(200,150,30,0.28);
+  border-radius: 3px; padding: 0.35rem 0.8rem; margin-bottom: 1.5rem;
+}
+.patent-badge-dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
+.patent-badge-text {
+  font-family: var(--mono); font-size: 0.62rem;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold);
+}
+
+.claims { display: flex; flex-direction: column; gap: 0.875rem; }
+.claim {
+  background: var(--pale); border-left: 3px solid var(--forest);
+  padding: 1.1rem 1.4rem; border-radius: 0 4px 4px 0;
+}
+.claim-n {
+  font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--sage); margin-bottom: 0.35rem;
+}
+.claim-t { font-size: 0.87rem; color: var(--ink); line-height: 1.6; }
+
+/* Rotation steps */
+.rotation-card {
+  background: var(--pale); border: 1px solid var(--stone);
+  border-radius: 8px; padding: 2.25rem;
+}
+.rotation-label {
+  font-family: var(--mono); font-size: 0.62rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--sage); margin-bottom: 1.875rem;
+}
+.steps { display: flex; flex-direction: column; }
+.step { display: flex; gap: 1.125rem; align-items: stretch; }
+.step-col { display: flex; flex-direction: column; align-items: center; width: 30px; flex-shrink: 0; }
+.step-dot {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--forest); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 0.68rem; font-weight: 500;
+  flex-shrink: 0; z-index: 1;
+}
+.step-dot.gold-dot { background: var(--gold); color: var(--ink); }
+.step-line { flex: 1; width: 1px; background: var(--stone); margin: 0 auto; min-height: 16px; }
+.step-body { padding: 0 0 1.35rem; flex: 1; }
+.step-h { font-size: 0.84rem; font-weight: 600; color: var(--ink); margin-bottom: 0.2rem; }
+.step-p { font-size: 0.78rem; color: rgba(14,26,17,0.55); line-height: 1.5; }
+.step-tag {
+  display: inline-block; margin-top: 0.35rem;
+  font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--gold); background: var(--gold-lt);
+  padding: 0.12rem 0.45rem; border-radius: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SECTION 03 — TRAÇABILITÉ (dark)
+═══════════════════════════════════════════════════════ */
+.trace-grid {
+  display: grid; grid-template-columns: repeat(2,1fr);
+  gap: 1px; background: rgba(255,255,255,0.055);
+  border: 1px solid rgba(255,255,255,0.055);
+  border-radius: 6px; overflow: hidden; margin-top: 2.5rem;
+}
+.trace-card {
+  background: rgba(255,255,255,0.025);
+  padding: 2.25rem; transition: background 0.2s;
+}
+.trace-card:hover { background: rgba(255,255,255,0.055); }
+.trace-icon {
+  width: 42px; height: 42px; border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.1rem;
+}
+.trace-icon svg { width: 18px; height: 18px; stroke: var(--sage); fill: none; stroke-width: 1.5; }
+.trace-h { font-size: 0.88rem; font-weight: 600; color: white; margin-bottom: 0.4rem; }
+.trace-p { font-size: 0.8rem; color: rgba(255,255,255,0.42); line-height: 1.7; }
+
+.taqnin-band {
+  grid-column: 1/-1;
+  background: rgba(200,150,30,0.08);
+  border-top: 2px solid var(--gold);
+  padding: 1.875rem 2.25rem;
+  display: flex; align-items: flex-start; gap: 2rem;
+}
+.taqnin-name {
+  font-family: var(--serif); font-size: 1.45rem;
+  font-style: italic; color: var(--gold); flex-shrink: 0; margin-top: 0.1rem;
+}
+.taqnin-desc { font-size: 0.8rem; color: rgba(255,255,255,0.47); line-height: 1.7; }
+
+/* ═══════════════════════════════════════════════════════
+   SECTION 04 — FILIÈRES
+═══════════════════════════════════════════════════════ */
+.filieres-grid {
+  display: grid; grid-template-columns: repeat(2,1fr); gap: 1.25rem;
+}
+.filiere-card {
+  background: var(--white); border: 1px solid var(--stone);
+  border-radius: 6px; padding: 1.875rem;
+  transition: all 0.22s var(--ease);
+}
+.filiere-card:hover {
+  border-color: var(--sage); transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(26,92,56,0.08);
+}
+.filiere-top {
+  display: flex; justify-content: space-between;
+  align-items: flex-start; margin-bottom: 0.875rem;
+}
+.f-tag {
+  font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--sage); background: var(--mist);
+  padding: 0.18rem 0.48rem; border-radius: 2px;
+}
+.f-status {
+  font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--forest); display: flex; align-items: center; gap: 0.3rem;
+}
+.f-dot { width: 5px; height: 5px; background: var(--forest); border-radius: 50%; }
+.f-title {
+  font-family: var(--serif); font-size: 1.25rem;
+  color: var(--ink); margin-bottom: 0.45rem; line-height: 1.2;
+}
+.f-desc { font-size: 0.8rem; color: rgba(14,26,17,0.58); line-height: 1.65; }
+
+.compliance-strip {
+  margin-top: 2.75rem; background: var(--white);
+  border: 1px solid var(--stone); border-radius: 5px;
+  padding: 1.5rem 2.25rem;
+  display: flex; align-items: center; gap: 2.5rem; flex-wrap: wrap;
+}
+.compliance-label {
+  font-family: var(--mono); font-size: 0.6rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(14,26,17,0.35); white-space: nowrap;
+}
+.compliance-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+.ctag {
+  background: var(--mist); color: var(--forest);
+  font-family: var(--mono); font-size: 0.6rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.3rem 0.65rem; border-radius: 2px; font-weight: 500;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SECTION 05 — IMPACT
+═══════════════════════════════════════════════════════ */
+.impact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+
+.imp-table { width: 100%; border-collapse: collapse; }
+.imp-table th {
+  font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(14,26,17,0.38); padding: 0.55rem 1rem;
+  text-align: left; background: var(--pale);
+  border-bottom: 2px solid var(--stone);
+}
+.imp-table td {
+  padding: 0.95rem 1rem; border-bottom: 1px solid var(--stone);
+  font-size: 0.86rem; color: var(--ink);
+}
+.imp-table tr:last-child td { border-bottom: none; }
+.imp-table td:first-child { font-size: 0.78rem; color: rgba(14,26,17,0.52); }
+.imp-table .val { font-family: var(--serif); font-size: 1.05rem; color: var(--forest); }
+
+.timeline { display: flex; flex-direction: column; gap: 0; }
+.tl-item {
+  display: flex; gap: 1.25rem;
+  opacity: 0; transform: translateY(14px);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+  margin-bottom: 1.875rem;
+}
+.tl-item.vis { opacity: 1; transform: translateY(0); }
+.tl-badge {
+  background: var(--forest); color: white;
+  font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.22rem 0.55rem; border-radius: 2px;
+  height: fit-content; white-space: nowrap; margin-top: 0.1rem; flex-shrink: 0;
+}
+.tl-badge.gold { background: var(--gold); color: var(--ink); }
+.tl-strong { font-size: 0.88rem; font-weight: 600; display: block; margin-bottom: 0.2rem; }
+.tl-text { font-size: 0.8rem; color: rgba(14,26,17,0.55); line-height: 1.55; }
+
+/* ═══════════════════════════════════════════════════════
+   SECTION 06 — TERRITOIRE (green bg)
+═══════════════════════════════════════════════════════ */
+.territoire-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+.terr-detail { font-size: 0.95rem; color: rgba(255,255,255,0.68); line-height: 1.85; margin-top: 1.25rem; }
+
+.regions { display: flex; flex-direction: column; gap: 0.65rem; margin-top: 2rem; }
+.region {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 0.9rem 1.1rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 4px;
+}
+.region-dot { width: 7px; height: 7px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
+.region-name { font-size: 0.9rem; color: white; font-weight: 500; }
+.region-note { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.08em; color: rgba(255,255,255,0.32); margin-left: auto; text-transform: uppercase; }
+
+/* ═══════════════════════════════════════════════════════
+   SECTION 07 — CONTACT
+═══════════════════════════════════════════════════════ */
+.contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem; align-items: start; }
+
+.contact-card {
+  background: var(--ink); border-radius: 8px; padding: 2.75rem; color: white;
+}
+.contact-name { font-family: var(--serif); font-size: 1.875rem; font-weight: 300; margin-bottom: 0.25rem; }
+.contact-role {
+  font-family: var(--mono); font-size: 0.6rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 2rem;
+}
+.contact-links { display: flex; flex-direction: column; gap: 0.875rem; }
+.clink {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 0.95rem 1.1rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 4px; text-decoration: none; transition: background 0.2s;
+}
+.clink:hover { background: rgba(255,255,255,0.09); }
+.clink-icon {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.clink-icon svg { width: 13px; height: 13px; stroke: var(--sage); fill: none; stroke-width: 1.5; }
+.clink-text { font-size: 0.86rem; color: rgba(255,255,255,0.72); }
+
+.contact-form-side h3 {
+  font-family: var(--serif); font-size: 1.75rem; font-weight: 300;
+  color: var(--ink); margin-bottom: 0.4rem;
+}
+.form-sub { font-size: 0.88rem; color: rgba(14,26,17,0.52); line-height: 1.7; margin-bottom: 1.875rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.875rem; margin-bottom: 0.875rem; }
+.fg { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 0.875rem; }
+.fg label {
+  font-family: var(--mono); font-size: 0.6rem;
+  letter-spacing: 0.1em; text-transform: uppercase; color: rgba(14,26,17,0.4);
+}
+.fg input, .fg textarea, .fg select {
+  background: white; border: 1px solid var(--stone); border-radius: 3px;
+  padding: 0.7rem 0.95rem;
+  font-family: var(--sans); font-size: 0.86rem; color: var(--ink);
+  transition: border-color 0.2s; outline: none;
+}
+.fg input:focus, .fg textarea:focus, .fg select:focus { border-color: var(--forest); }
+.fg textarea { resize: vertical; min-height: 95px; }
+
+/* ═══════════════════════════════════════════════════════
+   FOOTER + LEGAL
+═══════════════════════════════════════════════════════ */
+footer { background: var(--ink); }
+
+.footer-main {
+  display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 3.5rem; padding: 4rem var(--px) 3rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.footer-brand {}
+.footer-brand-name {
+  font-family: var(--serif); font-size: 1.25rem;
+  font-style: italic; color: white; margin-bottom: 0.75rem;
+}
+.footer-brand-desc { font-size: 0.78rem; color: rgba(255,255,255,0.38); line-height: 1.75; max-width: 220px; }
+
+.footer-col-title {
+  font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.35); margin-bottom: 1.1rem;
+}
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+.footer-links a {
+  font-size: 0.8rem; color: rgba(255,255,255,0.5);
+  text-decoration: none; transition: color 0.2s;
+}
+.footer-links a:hover { color: white; }
+
+/* Legal section */
+.footer-legal {
+  padding: 1.875rem var(--px);
+  border-top: 1px solid rgba(255,255,255,0.04);
+}
+.legal-title {
+  font-family: var(--mono); font-size: 0.6rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.3); margin-bottom: 1.1rem;
+  cursor: pointer; display: flex; align-items: center; gap: 0.5rem;
+}
+.legal-title::after {
+  content: '▸'; font-size: 0.5rem; transition: transform 0.2s;
+}
+.legal-title.open::after { transform: rotate(90deg); }
+
+.legal-body {
+  display: none;
+  padding: 1.5rem 0 0.5rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  margin-bottom: 1rem;
+}
+.legal-body.open { display: block; }
+
+.legal-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2.5rem; margin-bottom: 1.5rem; }
+.legal-section-h {
+  font-family: var(--mono); font-size: 0.6rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 0.6rem;
+}
+.legal-text {
+  font-size: 0.75rem; color: rgba(255,255,255,0.32);
+  line-height: 1.8;
+}
+.legal-text strong { color: rgba(255,255,255,0.5); font-weight: 500; }
+
+.footer-bottom {
+  padding: 1.5rem var(--px);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 0.75rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+.footer-copy { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em; color: rgba(255,255,255,0.22); }
+.footer-legal-links { display: flex; gap: 1.5rem; }
+.footer-legal-links a {
+  font-family: var(--mono); font-size: 0.6rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(255,255,255,0.25); text-decoration: none; transition: color 0.2s;
+}
+.footer-legal-links a:hover { color: rgba(255,255,255,0.5); }
+
+/* ═══════════════════════════════════════════════════════
+   CALLOUT BLOCKS
+═══════════════════════════════════════════════════════ */
+.callout {
+  background: var(--mist); border-left: 3px solid var(--forest);
+  border-radius: 0 5px 5px 0; padding: 1.5rem 1.875rem; margin: 2rem 0;
+}
+.callout-title { font-family: var(--sans); font-size: 0.84rem; font-weight: 600; color: var(--forest); margin-bottom: 0.75rem; }
+.callout ul { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+.callout li {
+  font-size: 0.83rem; color: var(--ink); padding-left: 1.1rem; position: relative; line-height: 1.55;
+}
+.callout li::before { content: '·'; position: absolute; left: 0; color: var(--gold); font-size: 1rem; top: -1px; }
+
+.gold-callout {
+  background: var(--gold-lt); border: 1px solid rgba(200,150,30,0.25);
+  border-radius: 5px; padding: 1.5rem 1.875rem;
+}
+.gold-callout-text { font-size: 0.9rem; color: var(--ink); line-height: 1.75; }
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE — Tablet
+═══════════════════════════════════════════════════════ */
+@media (max-width: 1100px) {
+  :root { --px: 3rem; }
+  .arch-grid, .patent-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .spec-card { position: static; }
+  .stats-bar { grid-template-columns: repeat(2,1fr); }
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE — Mobile
+═══════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  :root { --px: 1.375rem; --py: 4rem; }
+
+  /* Nav */
+  .nav-center { display: none; }
+  .nav-right .nav-cta { display: none; }
+  .nav-burger { display: flex; }
+  .nav-drawer { display: flex; }
+
+  /* Hero */
+  #hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero-left { padding: 4rem var(--px) 3rem; }
+  .hero-right { display: none; }
+
+  /* Stats */
+  .stats-bar { grid-template-columns: 1fr 1fr; padding: 0 var(--px); }
+  .stat { padding: 1.75rem 1rem; }
+  .stat-n { font-size: 2rem; }
+
+  /* Section headers */
+  .sec-header { flex-direction: column; gap: 0.75rem; }
+  .sec-num { margin-top: 0; }
+
+  /* All two-col grids → single col */
+  .arch-grid, .patent-grid, .impact-grid,
+  .territoire-grid, .contact-grid,
+  .filieres-grid, .footer-main { grid-template-columns: 1fr; gap: 2rem; }
+  .trace-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .taqnin-band { flex-direction: column; gap: 0.75rem; }
+
+  /* Footer */
+  .footer-main { padding: 3rem var(--px) 2rem; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+  .legal-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .compliance-strip { flex-direction: column; gap: 1rem; align-items: flex-start; }
+
+  /* Spec card */
+  .spec-card { position: static; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   KEYFRAMES
+═══════════════════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════
+     NAVIGATION
+══════════════════════════════════════════════════════ -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-mark">
+      <svg viewBox="0 0 24 24"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9M12 3v9m0 0 4-4"/></svg>
+    </div>
+    <span class="nav-logo-text">HydroLoop Farm</span>
+  </a>
+
+  <ul class="nav-center">
+    <li><a href="#architecture" lang="fr">Système</a><a href="#architecture" lang="en">System</a></li>
+    <li><a href="#brevet" lang="fr">Brevet</a><a href="#brevet" lang="en">Patent</a></li>
+    <li><a href="#tracabilite" lang="fr">Traçabilité</a><a href="#tracabilite" lang="en">Traceability</a></li>
+    <li><a href="#filieres" lang="fr">Filières</a><a href="#filieres" lang="en">Markets</a></li>
+    <li><a href="#impact">Impact</a></li>
+    <li><a href="#territoire" lang="fr">Territoire</a><a href="#territoire" lang="en">Territory</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+    <a href="#contact" class="nav-cta" lang="fr">Contact</a>
+    <a href="#contact" class="nav-cta" lang="en">Contact</a>
+    <button class="nav-burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile drawer -->
+<nav class="nav-drawer" id="drawer">
+  <a href="#architecture" onclick="closeDrawer()" lang="fr">Système</a>
+  <a href="#architecture" onclick="closeDrawer()" lang="en">System</a>
+  <a href="#brevet" onclick="closeDrawer()" lang="fr">Brevet</a>
+  <a href="#brevet" onclick="closeDrawer()" lang="en">Patent</a>
+  <a href="#tracabilite" onclick="closeDrawer()" lang="fr">Traçabilité</a>
+  <a href="#tracabilite" onclick="closeDrawer()" lang="en">Traceability</a>
+  <a href="#filieres" onclick="closeDrawer()" lang="fr">Filières</a>
+  <a href="#filieres" onclick="closeDrawer()" lang="en">Markets</a>
+  <a href="#impact" onclick="closeDrawer()">Impact</a>
+  <a href="#territoire" onclick="closeDrawer()" lang="fr">Territoire</a>
+  <a href="#territoire" onclick="closeDrawer()" lang="en">Territory</a>
+  <a href="#contact" onclick="closeDrawer()" lang="fr">Contact</a>
+  <a href="#contact" onclick="closeDrawer()" lang="en">Contact</a>
+  <div class="drawer-bottom">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-left">
+
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text" lang="fr">Agriculture de précision — Maroc</span>
+      <span class="eyebrow-text" lang="en">Precision Agriculture — Morocco</span>
+    </div>
+
+    <h1 class="hero-title">HydroLoop<br><em>Farm</em></h1>
+
+    <p class="hero-sub" lang="fr">Biomasse végétale stable,<br>traçable, documentée</p>
+    <p class="hero-sub" lang="en">Stable, traceable,<br>documented plant biomass</p>
+
+    <p class="hero-desc" lang="fr">Système agricole modulaire combinant hydroponie NFT, architecture verticale et traçabilité intégrée. Conçu pour produire des matières végétales reproductibles, conformes aux standards des filières médicales, nutraceutiques et scientifiques.</p>
+    <p class="hero-desc" lang="en">Modular agricultural system combining NFT hydroponics, vertical architecture and integrated traceability. Designed to produce reproducible plant materials meeting the standards of medical, nutraceutical and scientific markets.</p>
+
+    <div class="hero-actions">
+      <a href="#architecture" class="btn-primary" lang="fr">Découvrir le système</a>
+      <a href="#architecture" class="btn-primary" lang="en">Explore the system</a>
+      <a href="#contact" class="btn-ghost" lang="fr">Nous contacter</a>
+      <a href="#contact" class="btn-ghost" lang="en">Get in touch</a>
+    </div>
+
+  </div>
+  <div class="hero-right">
+    <div class="hero-bg">
+      <div class="hero-svg-wrap">
+        <svg viewBox="0 0 380 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="50" y="20" width="280" height="320" rx="8" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+          <!-- Level 3 Harvest -->
+          <rect x="68" y="38" width="244" height="70" rx="4" fill="rgba(200,150,30,0.12)" stroke="rgba(200,150,30,0.38)" stroke-width="1"/>
+          <text x="88" y="62" font-family="DM Mono,monospace" font-size="9" fill="rgba(255,255,255,0.4)" letter-spacing="2" text-transform="uppercase">LEVEL 3 — HARVEST</text>
+          <text x="88" y="94" font-family="Cormorant Garamond,serif" font-size="20" fill="white" font-style="italic">Maturation</text>
+          <line x1="230" y1="100" x2="230" y2="52" stroke="rgba(122,170,138,0.65)" stroke-width="1.5"/>
+          <ellipse cx="230" cy="50" rx="13" ry="8" fill="rgba(122,170,138,0.28)" stroke="rgba(122,170,138,0.6)" stroke-width="1"/>
+          <line x1="260" y1="100" x2="260" y2="46" stroke="rgba(122,170,138,0.65)" stroke-width="1.5"/>
+          <ellipse cx="260" cy="44" rx="15" ry="9" fill="rgba(122,170,138,0.32)" stroke="rgba(122,170,138,0.6)" stroke-width="1"/>
+          <line x1="288" y1="100" x2="288" y2="52" stroke="rgba(122,170,138,0.65)" stroke-width="1.5"/>
+          <ellipse cx="288" cy="50" rx="11" ry="7" fill="rgba(122,170,138,0.25)" stroke="rgba(122,170,138,0.55)" stroke-width="1"/>
+          <!-- Level 2 -->
+          <rect x="68" y="120" width="244" height="70" rx="4" fill="rgba(45,122,80,0.11)" stroke="rgba(45,122,80,0.33)" stroke-width="1"/>
+          <text x="88" y="144" font-family="DM Mono,monospace" font-size="9" fill="rgba(255,255,255,0.35)" letter-spacing="2">LEVEL 2 — GROWTH</text>
+          <text x="88" y="176" font-family="Cormorant Garamond,serif" font-size="20" fill="rgba(255,255,255,0.82)" font-style="italic">Pré-floraison</text>
+          <line x1="248" y1="182" x2="248" y2="134" stroke="rgba(122,170,138,0.4)" stroke-width="1.5"/>
+          <ellipse cx="248" cy="132" rx="10" ry="6" fill="rgba(122,170,138,0.18)" stroke="rgba(122,170,138,0.45)" stroke-width="1"/>
+          <line x1="277" y1="182" x2="277" y2="130" stroke="rgba(122,170,138,0.4)" stroke-width="1.5"/>
+          <ellipse cx="277" cy="128" rx="12" ry="7" fill="rgba(122,170,138,0.22)" stroke="rgba(122,170,138,0.45)" stroke-width="1"/>
+          <!-- Level 1 -->
+          <rect x="68" y="202" width="244" height="70" rx="4" fill="rgba(26,92,56,0.12)" stroke="rgba(26,92,56,0.38)" stroke-width="1"/>
+          <text x="88" y="226" font-family="DM Mono,monospace" font-size="9" fill="rgba(255,255,255,0.3)" letter-spacing="2">LEVEL 1 — DEVELOP.</text>
+          <text x="88" y="258" font-family="Cormorant Garamond,serif" font-size="20" fill="rgba(255,255,255,0.7)" font-style="italic">Phase végétative</text>
+          <line x1="260" y1="264" x2="260" y2="220" stroke="rgba(122,170,138,0.3)" stroke-width="1.5"/>
+          <ellipse cx="260" cy="218" rx="8" ry="5" fill="rgba(122,170,138,0.12)" stroke="rgba(122,170,138,0.35)" stroke-width="1"/>
+          <!-- Germination -->
+          <rect x="68" y="286" width="244" height="38" rx="4" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.09)" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="88" y="310" font-family="DM Mono,monospace" font-size="9" fill="rgba(255,255,255,0.25)" letter-spacing="2">GERMINATION UNIT</text>
+          <!-- Nutrient loop arrow -->
+          <path d="M 42 78 Q 28 185 42 272" stroke="rgba(200,150,30,0.28)" stroke-width="1" fill="none" stroke-dasharray="3,3"/>
+          <text x="-62" y="32" font-family="DM Mono,monospace" font-size="8" fill="rgba(200,150,30,0.4)" letter-spacing="1" transform="translate(30,175) rotate(-90)">NUTRIENT LOOP</text>
+          <!-- Closed circuit label -->
+          <text x="340" y="190" font-family="DM Mono,monospace" font-size="8" fill="rgba(255,255,255,0.2)" letter-spacing="1" transform="translate(0,0) rotate(90,340,185)">CLOSED CIRCUIT</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar" id="stats-bar">
+  <div class="stat">
+    <div class="stat-n">−80<em>%</em></div>
+    <div class="stat-l" lang="fr">Économie d'eau</div>
+    <div class="stat-l" lang="en">Water saving</div>
+  </div>
+  <div class="stat">
+    <div class="stat-n">×<em>3</em></div>
+    <div class="stat-l" lang="fr">Surface cultivée / m²</div>
+    <div class="stat-l" lang="en">Cultivated area / m²</div>
+  </div>
+  <div class="stat">
+    <div class="stat-n">6</div>
+    <div class="stat-l" lang="fr">Cycles / an / module</div>
+    <div class="stat-l" lang="en">Cycles / year / module</div>
+  </div>
+  <div class="stat">
+    <div class="stat-n">150<em>m²</em></div>
+    <div class="stat-l" lang="fr">Surface utile / module</div>
+    <div class="stat-l" lang="en">Useful area / module</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     01 — ARCHITECTURE
+══════════════════════════════════════════════════════ -->
+<section id="architecture" class="section alt">
+  <div class="sec-header fu">
+    <span class="sec-num">01</span>
+    <div>
+      <h2 class="sec-title" lang="fr">Une architecture agricole<br><em>nouvelle génération</em></h2>
+      <h2 class="sec-title" lang="en">A next-generation<br><em>agricultural architecture</em></h2>
+      <p class="sec-sub" lang="fr">Chaque module est une unité autonome conçue pour être dupliquée — préservant stabilité génétique, qualité des récoltes et conformité réglementaire.</p>
+      <p class="sec-sub" lang="en">Each module is a standalone unit designed to be replicated — preserving genetic stability, harvest quality and regulatory compliance.</p>
+    </div>
+  </div>
+
+  <div class="arch-grid">
+    <div class="feature-stack fu">
+
+      <div class="feat">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div>
+          <div class="feat-h" lang="fr">Structure A-Frame modulaire</div>
+          <div class="feat-h" lang="en">Modular A-Frame structure</div>
+          <div class="feat-p" lang="fr">Serre optimisée pour ventilation naturelle et brumisation. 50 m² par module.</div>
+          <div class="feat-p" lang="en">Greenhouse optimised for natural ventilation and misting. 50 m² per module.</div>
+        </div>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg></div>
+        <div>
+          <div class="feat-h" lang="fr">Architecture verticale multi-niveaux</div>
+          <div class="feat-h" lang="en">Multi-level vertical architecture</div>
+          <div class="feat-p" lang="fr">3 étages de culture, chacun dédié à un stade physiologique. Surface utile : 150 m².</div>
+          <div class="feat-p" lang="en">3 growing levels, each dedicated to a physiological stage. Useful area: 150 m².</div>
+        </div>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
+        <div>
+          <div class="feat-h" lang="fr">Hydroponie NFT circuit fermé</div>
+          <div class="feat-h" lang="en">Closed-circuit NFT hydroponics</div>
+          <div class="feat-p" lang="fr">Recyclage continu de la solution nutritive. Zéro perte d'eau, zéro drainage.</div>
+          <div class="feat-p" lang="en">Continuous recycling of nutrient solution. Zero water loss, zero drainage.</div>
+        </div>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg></div>
+        <div>
+          <div class="feat-h" lang="fr">Fertigation automatisée</div>
+          <div class="feat-h" lang="en">Automated fertigation</div>
+          <div class="feat-p" lang="fr">Automate programmable avec sondes EC/pH temps réel. Ajustement cycle par cycle.</div>
+          <div class="feat-p" lang="en">Programmable controller with real-time EC/pH probes. Cycle-by-cycle adjustment.</div>
+        </div>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div>
+          <div class="feat-h" lang="fr">Contrôle climatique intégré</div>
+          <div class="feat-h" lang="en">Integrated climate control</div>
+          <div class="feat-p" lang="fr">Température, hygrométrie et lumière régulées automatiquement. Environnement stable et reproductible.</div>
+          <div class="feat-p" lang="en">Temperature, humidity and lighting automatically regulated. Stable, reproducible environment.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="spec-card fu">
+      <div class="spec-card-head">
+        <span class="spec-card-title" lang="fr">Module HydroLoop Standard</span>
+        <span class="spec-card-title" lang="en">HydroLoop Standard Module</span>
+        <span class="spec-badge" lang="fr">Breveté</span>
+        <span class="spec-badge" lang="en">Patented</span>
+      </div>
+      <div class="spec-body">
+        <div class="spec-row">
+          <span class="spec-k" lang="fr">Surface sol</span><span class="spec-k" lang="en">Floor area</span>
+          <span class="spec-v"><strong>50 m²</strong></span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-k" lang="fr">Surface cultivée</span><span class="spec-k" lang="en">Growing area</span>
+          <span class="spec-v"><strong>150 m²</strong></span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-k" lang="fr">Niveaux</span><span class="spec-k" lang="en">Levels</span>
+          <span class="spec-v" lang="fr">3 étages indép.</span><span class="spec-v" lang="en">3 independent</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-k" lang="fr">Cycles / an</span><span class="spec-k" lang="en">Cycles / year</span>
+          <span class="spec-v"><strong>5 à 6</strong></span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-k" lang="fr">Rotation cohortes</span><span class="spec-k" lang="en">Cohort rotation</span>
+          <span class="spec-v">20 — 27 j.</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-k" lang="fr">Eau</span><span class="spec-k" lang="en">Water</span>
+          <span class="spec-v"><strong>−80%</strong> vs conv.</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-k">Système</span>
+          <span class="spec-v">NFT circuit fermé</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-k" lang="fr">Investissement</span><span class="spec-k" lang="en">Investment</span>
+          <span class="spec-v"><strong>25 000 €</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     02 — BREVET
+══════════════════════════════════════════════════════ -->
+<section id="brevet" class="section white">
+  <div class="sec-header fu">
+    <span class="sec-num">02</span>
+    <div>
+      <h2 class="sec-title" lang="fr">Un système<br><em>breveté</em></h2>
+      <h2 class="sec-title" lang="en">A patented<br><em>system</em></h2>
+      <p class="sec-sub" lang="fr">HydroLoop repose sur une innovation technique protégée combinant architecture verticale, boucles nutritives indépendantes et procédé de rotation séquentielle.</p>
+      <p class="sec-sub" lang="en">HydroLoop is built on protected technical innovation combining vertical architecture, independent nutrient loops and sequential rotation process.</p>
+    </div>
+  </div>
+
+  <div class="patent-grid">
+    <div>
+      <div class="patent-badge-row fu">
+        <div class="patent-badge-dot"></div>
+        <span class="patent-badge-text" lang="fr">Innovation protégée</span>
+        <span class="patent-badge-text" lang="en">Protected innovation</span>
+      </div>
+
+      <div class="claims">
+        <div class="claim fx">
+          <div class="claim-n" lang="fr">Revendication 01</div>
+          <div class="claim-n" lang="en">Claim 01</div>
+          <div class="claim-t" lang="fr">Structure A-Frame modulaire à trois niveaux de culture NFT superposés, chacun opérant comme unité indépendante.</div>
+          <div class="claim-t" lang="en">Modular A-Frame structure with three superimposed NFT cultivation levels, each operating as an independent unit.</div>
+        </div>
+        <div class="claim fx">
+          <div class="claim-n" lang="fr">Revendication 02</div>
+          <div class="claim-n" lang="en">Claim 02</div>
+          <div class="claim-t" lang="fr">Boucles nutritives indépendantes par étage permettant d'adapter la composition (pH, EC) selon le stade physiologique de la plante.</div>
+          <div class="claim-t" lang="en">Independent nutrient loops per level enabling adjustment of composition (pH, EC) according to the plant's physiological stage.</div>
+        </div>
+        <div class="claim fx">
+          <div class="claim-n" lang="fr">Revendication 03</div>
+          <div class="claim-n" lang="en">Claim 03</div>
+          <div class="claim-t" lang="fr">Procédé de rotation séquentielle des cohortes assurant une production continue sans interruption du système de culture.</div>
+          <div class="claim-t" lang="en">Sequential cohort rotation process ensuring continuous production without interrupting the cultivation system.</div>
+        </div>
+        <div class="claim fx">
+          <div class="claim-n" lang="fr">Revendication 04</div>
+          <div class="claim-n" lang="en">Claim 04</div>
+          <div class="claim-t" lang="fr">Système de traçabilité génétique et agronomique intégré, compatible GACP et pré-GMP.</div>
+          <div class="claim-t" lang="en">Integrated genetic and agronomic traceability system, GACP and pre-GMP compatible.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rotation-card fu">
+      <div class="rotation-label" lang="fr">Cycle de production — Flux continu</div>
+      <div class="rotation-label" lang="en">Production cycle — Continuous flow</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-col"><div class="step-dot">G</div><div class="step-line"></div></div>
+          <div class="step-body">
+            <div class="step-h" lang="fr">Germination</div>
+            <div class="step-h" lang="en">Germination</div>
+            <div class="step-p" lang="fr">Mini-serre. Identification génétique des plants à l'entrée du cycle.</div>
+            <div class="step-p" lang="en">Mini-greenhouse. Genetic identification of plants at cycle entry.</div>
+            <span class="step-tag">J0 — J7</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-col"><div class="step-dot">1</div><div class="step-line"></div></div>
+          <div class="step-body">
+            <div class="step-h" lang="fr">Phase végétative — Niveau 1</div>
+            <div class="step-h" lang="en">Vegetative phase — Level 1</div>
+            <div class="step-p" lang="fr">Développement racinaire et végétatif. Solution riche en azote.</div>
+            <div class="step-p" lang="en">Root and vegetative development. Nitrogen-rich solution.</div>
+            <span class="step-tag">J7 — J14</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-col"><div class="step-dot">2</div><div class="step-line"></div></div>
+          <div class="step-body">
+            <div class="step-h" lang="fr">Pré-floraison — Niveau 2</div>
+            <div class="step-h" lang="en">Pre-flowering — Level 2</div>
+            <div class="step-p" lang="fr">Transition vers le stade reproducteur. Ajustement nutritif spécifique.</div>
+            <div class="step-p" lang="en">Transition to reproductive stage. Specific nutritional adjustment.</div>
+            <span class="step-tag">J14 — J21</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-col"><div class="step-dot gold-dot">3</div><div class="step-line"></div></div>
+          <div class="step-body">
+            <div class="step-h" lang="fr">Maturation — Niveau 3</div>
+            <div class="step-h" lang="en">Maturation — Level 3</div>
+            <div class="step-p" lang="fr">Accumulation des métabolites. Paramètres optimisés pour la qualité.</div>
+            <div class="step-p" lang="en">Metabolite accumulation. Parameters optimised for quality.</div>
+            <span class="step-tag">J21 — J27</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-col"><div class="step-dot gold-dot">↺</div></div>
+          <div class="step-body">
+            <div class="step-h" lang="fr">Récolte + nouvelle cohorte</div>
+            <div class="step-h" lang="en">Harvest + new cohort</div>
+            <div class="step-p" lang="fr">Récolte documentée. Intégration immédiate d'une nouvelle cohorte. Production ininterrompue.</div>
+            <div class="step-p" lang="en">Documented harvest. Immediate integration of a new cohort. Uninterrupted production.</div>
+            <span class="step-tag" lang="fr">Rotation J20–27</span>
+            <span class="step-tag" lang="en">Rotation D20–27</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     03 — TRAÇABILITÉ
+══════════════════════════════════════════════════════ -->
+<section id="tracabilite" class="section dark">
+  <div class="sec-header fu">
+    <span class="sec-num">03</span>
+    <div>
+      <h2 class="sec-title" lang="fr">Documentation complète<br><em>de la production</em></h2>
+      <h2 class="sec-title" lang="en">Complete production<br><em>documentation</em></h2>
+      <p class="sec-sub" lang="fr">Chaque module opère comme une unité de lot autonome. Du plant au produit final, chaque donnée est enregistrée, horodatée et traçable.</p>
+      <p class="sec-sub" lang="en">Each module operates as an autonomous batch unit. From plant to final product, every data point is recorded, timestamped and traceable.</p>
+    </div>
+  </div>
+
+  <div class="trace-grid fu">
+    <div class="trace-card">
+      <div class="trace-icon"><svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg></div>
+      <div class="trace-h" lang="fr">Identification génétique</div>
+      <div class="trace-h" lang="en">Genetic identification</div>
+      <div class="trace-p" lang="fr">Variété, fournisseur et numéro de lot enregistrés à l'entrée. Cohérence variétale garantie jusqu'à la récolte.</div>
+      <div class="trace-p" lang="en">Variety, supplier and batch number recorded at entry. Varietal consistency guaranteed through to harvest.</div>
+    </div>
+    <div class="trace-card">
+      <div class="trace-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+      <div class="trace-h" lang="fr">Journaux de culture</div>
+      <div class="trace-h" lang="en">Growing logs</div>
+      <div class="trace-p" lang="fr">pH, EC, température, hygrométrie, durée d'éclairage. Historique continu et complet par lot.</div>
+      <div class="trace-p" lang="en">pH, EC, temperature, humidity, lighting duration. Continuous, complete history per batch.</div>
+    </div>
+    <div class="trace-card">
+      <div class="trace-icon"><svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg></div>
+      <div class="trace-h" lang="fr">Traçabilité des récoltes</div>
+      <div class="trace-h" lang="en">Harvest traceability</div>
+      <div class="trace-p" lang="fr">Pesée, conditionnement, étiquetage à la sortie. Chaque lot associé à son historique agronomique complet.</div>
+      <div class="trace-p" lang="en">Weighing, packaging, labelling at exit. Each batch linked to its complete agronomic history.</div>
+    </div>
+    <div class="trace-card">
+      <div class="trace-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+      <div class="trace-h" lang="fr">Post-récolte documentée</div>
+      <div class="trace-h" lang="en">Documented post-harvest</div>
+      <div class="trace-p" lang="fr">Séchage, température, humidité résiduelle. Données de stockage et conservation enregistrées.</div>
+      <div class="trace-p" lang="en">Drying, temperature, residual moisture. Storage and preservation data recorded.</div>
+    </div>
+
+    <div class="taqnin-band">
+      <div class="taqnin-name">Taqnin ID Batch</div>
+      <div class="taqnin-desc" lang="fr">Système de suivi de lot propriétaire permettant un suivi de la graine au produit final. Architecture de données compatible GACP, pré-GMP et audits réglementaires. Chaque lot reçoit un identifiant unique permettant sa reconstitution complète.</div>
+      <div class="taqnin-desc" lang="en">Proprietary batch tracking system enabling end-to-end traceability from seed to final product. Data architecture compatible with GACP, pre-GMP and regulatory audits. Each batch receives a unique identifier allowing full reconstruction.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     04 — FILIÈRES
+══════════════════════════════════════════════════════ -->
+<section id="filieres" class="section alt">
+  <div class="sec-header fu">
+    <span class="sec-num">04</span>
+    <div>
+      <h2 class="sec-title" lang="fr">Filières<br><em>réglementées</em></h2>
+      <h2 class="sec-title" lang="en">Regulated<br><em>markets</em></h2>
+      <p class="sec-sub" lang="fr">HydroLoop a été conçu pour répondre aux exigences des marchés nécessitant une matière végétale documentée, reproductible et certifiable.</p>
+      <p class="sec-sub" lang="en">HydroLoop was designed to meet the requirements of markets demanding documented, reproducible and certifiable plant material.</p>
+    </div>
+  </div>
+
+  <div class="filieres-grid fu">
+    <div class="filiere-card">
+      <div class="filiere-top">
+        <span class="f-tag" lang="fr">Médical</span><span class="f-tag" lang="en">Medical</span>
+        <span class="f-status"><span class="f-dot"></span><span lang="fr">Actif — Loi 13-21</span><span lang="en">Active — Law 13-21</span></span>
+      </div>
+      <div class="f-title" lang="fr">Cannabinoïdes thérapeutiques</div>
+      <div class="f-title" lang="en">Therapeutic cannabinoids</div>
+      <div class="f-desc" lang="fr">Biomasse pour extraction d'actifs thérapeutiques. Compatible avec le cadre marocain (Loi 13-21) et les standards européens d'importation.</div>
+      <div class="f-desc" lang="en">Biomass for therapeutic active extraction. Compatible with Moroccan framework (Law 13-21) and European import standards.</div>
+    </div>
+    <div class="filiere-card">
+      <div class="filiere-top">
+        <span class="f-tag" lang="fr">Pharmaceutique</span><span class="f-tag" lang="en">Pharmaceutical</span>
+        <span class="f-status"><span class="f-dot"></span>Pré-GMP</span>
+      </div>
+      <div class="f-title" lang="fr">Botanique pharmaceutique</div>
+      <div class="f-title" lang="en">Pharmaceutical botany</div>
+      <div class="f-desc" lang="fr">Matières premières végétales pour formulation pharmaceutique. Documentation conforme aux exigences pré-GMP.</div>
+      <div class="f-desc" lang="en">Botanical raw materials for pharmaceutical formulation. Documentation compliant with pre-GMP requirements.</div>
+    </div>
+    <div class="filiere-card">
+      <div class="filiere-top">
+        <span class="f-tag" lang="fr">Nutraceutique</span><span class="f-tag" lang="en">Nutraceutical</span>
+        <span class="f-status"><span class="f-dot"></span><span lang="fr">Certifiable</span><span lang="en">Certifiable</span></span>
+      </div>
+      <div class="f-title" lang="fr">Actifs nutraceutiques</div>
+      <div class="f-title" lang="en">Nutraceutical actives</div>
+      <div class="f-desc" lang="fr">Plantes médicinales à haute densité en métabolites secondaires. Profils phytochimiques constants par standardisation de la production.</div>
+      <div class="f-desc" lang="en">Medicinal plants with high secondary metabolite density. Consistent phytochemical profiles through production standardisation.</div>
+    </div>
+    <div class="filiere-card">
+      <div class="filiere-top">
+        <span class="f-tag" lang="fr">Cosmétique</span><span class="f-tag" lang="en">Cosmetic</span>
+        <span class="f-status"><span class="f-dot"></span><span lang="fr">En développement</span><span lang="en">In development</span></span>
+      </div>
+      <div class="f-title" lang="fr">Ingrédients cosmétiques</div>
+      <div class="f-title" lang="en">Cosmetic ingredients</div>
+      <div class="f-desc" lang="fr">Cultures aromatiques à haute valeur. Qualité sensorielle et chimique documentée pour formulations cosmétiques et parfumerie.</div>
+      <div class="f-desc" lang="en">High-value aromatic crops. Documented sensory and chemical quality for cosmetic and perfumery formulations.</div>
+    </div>
+  </div>
+
+  <div class="compliance-strip fu">
+    <span class="compliance-label" lang="fr">Conformité</span>
+    <span class="compliance-label" lang="en">Compliance</span>
+    <div class="compliance-tags">
+      <span class="ctag" lang="fr">Loi 13-21 Maroc</span><span class="ctag" lang="en">Law 13-21 Morocco</span>
+      <span class="ctag">GACP</span>
+      <span class="ctag">Pré-GMP</span>
+      <span class="ctag">ANRAC</span>
+      <span class="ctag" lang="fr">Génération Green 2030</span><span class="ctag" lang="en">Generation Green 2030</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     05 — IMPACT
+══════════════════════════════════════════════════════ -->
+<section id="impact" class="section white">
+  <div class="sec-header fu">
+    <span class="sec-num">05</span>
+    <div>
+      <h2 class="sec-title" lang="fr">Impact économique<br><em>&amp; déploiement</em></h2>
+      <h2 class="sec-title" lang="en">Economic impact<br><em>&amp; deployment</em></h2>
+      <p class="sec-sub" lang="fr">Chaque module est rentable dès la première année. Le modèle est conçu pour une montée en puissance progressive par duplication.</p>
+      <p class="sec-sub" lang="en">Each module is profitable from year one. The model is designed for progressive scale-up through replication.</p>
+    </div>
+  </div>
+
+  <div class="impact-grid">
+    <div class="fu">
+      <table class="imp-table">
+        <thead>
+          <tr>
+            <th lang="fr">Indicateur</th><th lang="en">Indicator</th>
+            <th lang="fr">1 module</th><th lang="en">1 module</th>
+            <th lang="fr">10 modules</th><th lang="en">10 modules</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td lang="fr">CA annuel</td><td lang="en">Annual revenue</td>
+            <td class="val">400–600K MAD</td>
+            <td class="val">4–6M MAD</td>
+          </tr>
+          <tr>
+            <td lang="fr">Charges opérat.</td><td lang="en">Operating costs</td>
+            <td>170 000 MAD</td><td>1 700 000 MAD</td>
+          </tr>
+          <tr>
+            <td lang="fr">Marge brute</td><td lang="en">Gross margin</td>
+            <td class="val">57 — 72 %</td><td class="val">57 — 72 %</td>
+          </tr>
+          <tr>
+            <td lang="fr">Emplois directs</td><td lang="en">Direct jobs</td>
+            <td>2 à 3</td><td>20 à 30</td>
+          </tr>
+          <tr>
+            <td lang="fr">Emplois indirects</td><td lang="en">Indirect jobs</td>
+            <td>1 à 2</td><td>10 à 20</td>
+          </tr>
+          <tr>
+            <td lang="fr">Investissement</td><td lang="en">Investment</td>
+            <td>25 000 €</td><td>250 000 €</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="timeline" id="tl">
+      <div class="tl-item">
+        <span class="tl-badge" lang="fr">Phase 1 — 2026</span>
+        <span class="tl-badge" lang="en">Phase 1 — 2026</span>
+        <div>
+          <span class="tl-strong" lang="fr">Projet pilote — 3 modules</span>
+          <span class="tl-strong" lang="en">Pilot project — 3 modules</span>
+          <span class="tl-text" lang="fr">Installation dans une coopérative partenaire. Formation des techniciens. Validation technique et économique sur cycles réels.</span>
+          <span class="tl-text" lang="en">Installation in a partner cooperative. Technician training. Technical and economic validation on real cycles.</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <span class="tl-badge" lang="fr">Phase 2 — 2027</span>
+        <span class="tl-badge" lang="en">Phase 2 — 2027</span>
+        <div>
+          <span class="tl-strong" lang="fr">Déploiement — 13 modules</span>
+          <span class="tl-strong" lang="en">Deployment — 13 modules</span>
+          <span class="tl-text" lang="fr">Extension du réseau. Unité collective de séchage/conditionnement. Premières certifications qualité.</span>
+          <span class="tl-text" lang="en">Network expansion. Collective drying/packaging unit. First quality certifications.</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <span class="tl-badge gold" lang="fr">Phase 3 — 2028–30</span>
+        <span class="tl-badge gold" lang="en">Phase 3 — 2028–30</span>
+        <div>
+          <span class="tl-strong" lang="fr">Essaimage — 50 modules</span>
+          <span class="tl-strong" lang="en">Roll-out — 50 modules</span>
+          <span class="tl-text" lang="fr">Réseau régional de 50 modules dans 5 provinces du Rif. Filière intégrée production–commercialisation. Marque collective Rif HydroLoop.</span>
+          <span class="tl-text" lang="en">Regional network of 50 modules across 5 Rif provinces. Integrated production-to-market chain. Rif HydroLoop collective brand.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     06 — TERRITOIRE
+══════════════════════════════════════════════════════ -->
+<section id="territoire" class="section green">
+  <div class="territoire-grid">
+    <div class="fu">
+      <span class="sec-num">06</span>
+      <h2 class="sec-title" style="margin-top:0.75rem" lang="fr">Développé<br><em>au Maroc</em></h2>
+      <h2 class="sec-title" style="margin-top:0.75rem" lang="en">Developed<br><em>in Morocco</em></h2>
+      <p class="sec-sub" lang="fr">HydroLoop Farm est une innovation marocaine conçue pour les réalités du terrain dans les provinces du Rif.</p>
+      <p class="sec-sub" lang="en">HydroLoop Farm is a Moroccan innovation designed for the ground realities of the Rif provinces.</p>
+      <p class="terr-detail" lang="fr">Le système est en phase de déploiement avec des coopératives agricoles du Rif. L'objectif est de construire une plateforme agricole produisant une biomasse végétale stable, traçable et compatible avec les standards internationaux — depuis le territoire marocain.</p>
+      <p class="terr-detail" lang="en">The system is in deployment phase with Rif agricultural cooperatives. The goal is to build an agricultural platform producing stable, traceable plant biomass compatible with international standards — from Moroccan territory.</p>
+    </div>
+
+    <div class="fu">
+      <div class="regions">
+        <div class="region"><div class="region-dot"></div><span class="region-name">Al Hoceima</span><span class="region-note" lang="fr">Phase pilote</span><span class="region-note" lang="en">Pilot phase</span></div>
+        <div class="region"><div class="region-dot"></div><span class="region-name">Chefchaouen</span><span class="region-note" lang="fr">Année 2</span><span class="region-note" lang="en">Year 2</span></div>
+        <div class="region"><div class="region-dot"></div><span class="region-name">Taounate</span><span class="region-note" lang="fr">Année 2</span><span class="region-note" lang="en">Year 2</span></div>
+        <div class="region"><div class="region-dot"></div><span class="region-name">Tétouan</span><span class="region-note" lang="fr">Phase 3</span><span class="region-note" lang="en">Phase 3</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     07 — CONTACT
+══════════════════════════════════════════════════════ -->
+<section id="contact" class="section alt">
+  <div class="sec-header fu">
+    <span class="sec-num">07</span>
+    <div>
+      <h2 class="sec-title" lang="fr">Prendre contact<br><em>avec l'équipe</em></h2>
+      <h2 class="sec-title" lang="en">Get in touch<br><em>with the team</em></h2>
+    </div>
+  </div>
+
+  <div class="contact-grid fu">
+    <div class="contact-card">
+      <div class="contact-name">Ahmed Akafou</div>
+      <div class="contact-role" lang="fr">Fondateur — Amiouri Seeds</div>
+      <div class="contact-role" lang="en">Founder — Amiouri Seeds</div>
+      <div class="contact-links">
+        <a href="mailto:contact@amiouriseeds.com" class="clink">
+          <div class="clink-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <span class="clink-text">contact@amiouriseeds.com</span>
+        </a>
+        <a href="tel:+212641487497" class="clink">
+          <div class="clink-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg></div>
+          <span class="clink-text">+212 641 487 497</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="contact-form-side">
+      <h3 lang="fr">Nous écrire</h3>
+      <h3 lang="en">Write to us</h3>
+      <p class="form-sub" lang="fr">Investisseurs, partenaires institutionnels, coopératives, opérateurs pharmaceutiques — nous répondons à toute demande qualifiée.</p>
+      <p class="form-sub" lang="en">Investors, institutional partners, cooperatives, pharmaceutical operators — we respond to all qualified enquiries.</p>
+      <div class="form-row">
+        <div class="fg">
+          <label lang="fr">Prénom</label><label lang="en">First name</label>
+          <input type="text">
+        </div>
+        <div class="fg">
+          <label lang="fr">Nom</label><label lang="en">Last name</label>
+          <input type="text">
+        </div>
+      </div>
+      <div class="fg">
+        <label lang="fr">Organisation</label><label lang="en">Organisation</label>
+        <input type="text">
+      </div>
+      <div class="fg">
+        <label lang="fr">Objet</label><label lang="en">Subject</label>
+        <select>
+          <option lang="fr">Partenariat coopérative</option><option lang="en">Cooperative partnership</option>
+          <option lang="fr">Investissement</option><option lang="en">Investment</option>
+          <option lang="fr">Partenariat commercial</option><option lang="en">Commercial partnership</option>
+          <option lang="fr">Documentation technique</option><option lang="en">Technical documentation</option>
+          <option lang="fr">Institution / Presse</option><option lang="en">Institution / Press</option>
+          <option lang="fr">Autre</option><option lang="en">Other</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Message</label>
+        <textarea placeholder="..." style="min-height:90px"></textarea>
+      </div>
+      <button class="btn-primary" style="width:100%" lang="fr">Envoyer le message</button>
+      <button class="btn-primary" style="width:100%" lang="en">Send message</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <div class="footer-brand-name">HydroLoop Farm</div>
+      <div class="footer-brand-desc" lang="fr">Système agricole modulaire pour plantes à haute valeur. Développé au Maroc. Conçu pour les filières internationales.</div>
+      <div class="footer-brand-desc" lang="en">Modular agricultural system for high-value plants. Developed in Morocco. Designed for international markets.</div>
+    </div>
+
+    <div>
+      <div class="footer-col-title" lang="fr">Navigation</div>
+      <div class="footer-col-title" lang="en">Navigation</div>
+      <ul class="footer-links">
+        <li><a href="#architecture" lang="fr">Système</a><a href="#architecture" lang="en">System</a></li>
+        <li><a href="#brevet" lang="fr">Brevet</a><a href="#brevet" lang="en">Patent</a></li>
+        <li><a href="#tracabilite" lang="fr">Traçabilité</a><a href="#tracabilite" lang="en">Traceability</a></li>
+        <li><a href="#filieres" lang="fr">Filières</a><a href="#filieres" lang="en">Markets</a></li>
+        <li><a href="#impact">Impact</a></li>
+        <li><a href="#territoire" lang="fr">Territoire</a><a href="#territoire" lang="en">Territory</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title" lang="fr">Conformité</div>
+      <div class="footer-col-title" lang="en">Compliance</div>
+      <ul class="footer-links">
+        <li><a href="#">Loi 13-21 Maroc</a></li>
+        <li><a href="#">GACP</a></li>
+        <li><a href="#">Pré-GMP</a></li>
+        <li><a href="#">ANRAC</a></li>
+        <li><a href="#" lang="fr">Génération Green</a><a href="#" lang="en">Generation Green</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title" lang="fr">Contact</div>
+      <div class="footer-col-title" lang="en">Contact</div>
+      <ul class="footer-links">
+        <li><a href="mailto:contact@amiouriseeds.com">contact@amiouriseeds.com</a></li>
+        <li><a href="tel:+212641487497">+212 641 487 497</a></li>
+        <li style="color:rgba(255,255,255,0.25);font-size:0.78rem;margin-top:0.5rem" lang="fr">Région du Rif, Maroc</li>
+        <li style="color:rgba(255,255,255,0.25);font-size:0.78rem;margin-top:0.5rem" lang="en">Rif Region, Morocco</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- LEGAL MENTIONS -->
+  <div class="footer-legal">
+    <div class="legal-title" id="legal-toggle" onclick="toggleLegal()" lang="fr">Mentions légales obligatoires</div>
+    <div class="legal-title" id="legal-toggle-en" onclick="toggleLegal()" lang="en">Legal notices</div>
+
+    <div class="legal-body" id="legal-body">
+
+      <div class="legal-grid">
+
+        <!-- FR -->
+        <div lang="fr">
+          <div class="legal-section-h">Éditeur du site</div>
+          <div class="legal-text">
+            <strong>Amiouri Seeds</strong><br>
+            Fondateur : Ahmed Akafou<br>
+            Adresse : Région du Rif, Maroc<br>
+            Email : contact@amiouriseeds.com<br>
+            Téléphone : +212 641 487 497<br><br>
+            <strong>Forme juridique :</strong> En cours de constitution<br>
+            <strong>Numéro d'enregistrement :</strong> À préciser à la constitution<br>
+            <strong>Directeur de publication :</strong> Ahmed Akafou
+          </div>
+        </div>
+
+        <div lang="fr">
+          <div class="legal-section-h">Propriété intellectuelle</div>
+          <div class="legal-text">
+            L'ensemble du contenu de ce site (textes, images, schémas, architecture du système, procédés techniques décrits) est protégé par le droit de la propriété intellectuelle.<br><br>
+            Le système HydroLoop Farm, incluant son architecture A-Frame, ses procédés de rotation des cohortes et ses boucles nutritives indépendantes, fait l'objet d'une demande de protection par brevet.<br><br>
+            Toute reproduction, représentation, modification ou utilisation sans autorisation préalable écrite est strictement interdite.
+          </div>
+        </div>
+
+        <div lang="fr">
+          <div class="legal-section-h">Responsabilité &amp; données</div>
+          <div class="legal-text">
+            <strong>Limitation de responsabilité :</strong> Les informations publiées sur ce site sont fournies à titre indicatif. Elles ne constituent pas une offre commerciale et sont susceptibles d'évoluer.<br><br>
+            <strong>Données personnelles :</strong> Les données collectées via le formulaire de contact sont utilisées uniquement pour répondre aux demandes. Elles ne sont pas transmises à des tiers. Conformément à la réglementation applicable, vous disposez d'un droit d'accès, de rectification et de suppression en écrivant à contact@amiouriseeds.com.<br><br>
+            <strong>Confidentialité :</strong> Ce site et ses documents associés sont confidentiels. Ne pas diffuser sans autorisation.
+          </div>
+        </div>
+
+        <!-- EN -->
+        <div lang="en">
+          <div class="legal-section-h">Publisher</div>
+          <div class="legal-text">
+            <strong>Amiouri Seeds</strong><br>
+            Founder: Ahmed Akafou<br>
+            Address: Rif Region, Morocco<br>
+            Email: contact@amiouriseeds.com<br>
+            Phone: +212 641 487 497<br><br>
+            <strong>Legal form:</strong> In process of incorporation<br>
+            <strong>Registration number:</strong> To be specified upon incorporation<br>
+            <strong>Publication director:</strong> Ahmed Akafou
+          </div>
+        </div>
+
+        <div lang="en">
+          <div class="legal-section-h">Intellectual property</div>
+          <div class="legal-text">
+            All content on this website (texts, images, diagrams, system architecture, technical processes described) is protected by intellectual property law.<br><br>
+            The HydroLoop Farm system, including its A-Frame architecture, cohort rotation processes and independent nutrient loops, is the subject of a patent protection application.<br><br>
+            Any reproduction, representation, modification or use without prior written authorisation is strictly prohibited.
+          </div>
+        </div>
+
+        <div lang="en">
+          <div class="legal-section-h">Liability &amp; data</div>
+          <div class="legal-text">
+            <strong>Limitation of liability:</strong> Information published on this site is provided for informational purposes only. It does not constitute a commercial offer and is subject to change.<br><br>
+            <strong>Personal data:</strong> Data collected via the contact form is used solely to respond to enquiries. It is not transmitted to third parties. In accordance with applicable regulations, you have the right of access, rectification and deletion by writing to contact@amiouriseeds.com.<br><br>
+            <strong>Confidentiality:</strong> This site and its associated documents are confidential. Do not distribute without authorisation.
+          </div>
+        </div>
+
+      </div><!-- /legal-grid -->
+    </div><!-- /legal-body -->
+  </div><!-- /footer-legal -->
+
+  <div class="footer-bottom">
+    <span class="footer-copy" lang="fr">© 2026 Amiouri Seeds / HydroLoop Farm — Tous droits réservés</span>
+    <span class="footer-copy" lang="en">© 2026 Amiouri Seeds / HydroLoop Farm — All rights reserved</span>
+    <div class="footer-legal-links">
+      <a href="#" onclick="openLegal()" lang="fr">Mentions légales</a>
+      <a href="#" onclick="openLegal()" lang="en">Legal notices</a>
+      <a href="mailto:contact@amiouriseeds.com" lang="fr">Confidentialité</a>
+      <a href="mailto:contact@amiouriseeds.com" lang="en">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════════════ -->
+<script>
+// ── Language ──────────────────────────────────────────
+function setLang(l) {
+  document.documentElement.setAttribute('data-lang', l);
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent === l.toUpperCase());
+  });
+  document.title = l === 'fr'
+    ? 'HydroLoop Farm — Agriculture de précision modulaire'
+    : 'HydroLoop Farm — Modular Precision Agriculture';
+}
+
+// ── Mobile nav ────────────────────────────────────────
+const burger = document.getElementById('burger');
+const drawer = document.getElementById('drawer');
+
+burger.addEventListener('click', () => {
+  const open = drawer.classList.toggle('open');
+  document.body.style.overflow = open ? 'hidden' : '';
+  const spans = burger.querySelectorAll('span');
+  if (open) {
+    spans[0].style.transform = 'translateY(6.5px) rotate(45deg)';
+    spans[1].style.opacity = '0';
+    spans[2].style.transform = 'translateY(-6.5px) rotate(-45deg)';
+  } else {
+    spans.forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+  }
+});
+
+function closeDrawer() {
+  drawer.classList.remove('open');
+  document.body.style.overflow = '';
+  burger.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+}
+
+// ── Nav scroll shadow ─────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
+}, { passive: true });
+
+// ── Scroll animations (IntersectionObserver) ──────────
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fu, .fx').forEach(el => io.observe(el));
+
+// Stats bar stagger
+const statsObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.stat').forEach((s, i) => {
+        setTimeout(() => s.classList.add('vis'), i * 130);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+statsObs.observe(document.getElementById('stats-bar'));
+
+// Claims stagger
+const claimObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.claim').forEach((c, i) => {
+        setTimeout(() => c.classList.add('vis'), i * 140);
+      });
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.claims').forEach(el => claimObs.observe(el));
+
+// Timeline stagger
+const tlObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.tl-item').forEach((t, i) => {
+        setTimeout(() => t.classList.add('vis'), i * 180);
+      });
+    }
+  });
+}, { threshold: 0.1 });
+const tl = document.getElementById('tl');
+if (tl) tlObs.observe(tl);
+
+// ── Legal toggle ──────────────────────────────────────
+function toggleLegal() {
+  const body = document.getElementById('legal-body');
+  const t1 = document.getElementById('legal-toggle');
+  const t2 = document.getElementById('legal-toggle-en');
+  body.classList.toggle('open');
+  t1.classList.toggle('open');
+  t2.classList.toggle('open');
+}
+
+function openLegal() {
+  const body = document.getElementById('legal-body');
+  const t1 = document.getElementById('legal-toggle');
+  const t2 = document.getElementById('legal-toggle-en');
+  body.classList.add('open');
+  t1.classList.add('open');
+  t2.classList.add('open');
+  document.querySelector('.footer-legal').scrollIntoView({ behavior: 'smooth' });
+  return false;
+}
+
+// ── Smooth scroll ────────────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href');
+    if (id === '#') return;
+    const target = document.querySelector(id);
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+</body>
+</html>
