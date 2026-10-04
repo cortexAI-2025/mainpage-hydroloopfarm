@@ -163,6 +163,7 @@
    "@type": "SoftwareApplication",
    "@id": "https://hydroloopfarm.com/#app",
    "name": "HydroLoop Farm Manager",
+   "url": "https://app.hydroloopfarm.com",
    "applicationCategory": "BusinessApplication",
    "operatingSystem": "Web (installable PWA)",
    "author": {
@@ -237,7 +238,7 @@
      "name": "What does the companion app do?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "The HydroLoop Farm Manager, developed by AIWorkPay, logs each batch from seed to harvest, raises alerts on pH, EC, dissolved oxygen, solution temperature and NFT flow, produces an AI agronomy report, predicts the harvest window, generates a QR code per batch, shows analytics and works offline with cloud sync."
+      "text": "The HydroLoop Farm Manager, developed by AIWorkPay, logs each batch from seed to harvest, raises alerts on pH, EC, dissolved oxygen, solution temperature and NFT flow, produces an AI agronomy report, predicts the harvest window, generates a QR code per batch, shows analytics and works offline with cloud sync. It is available at https://app.hydroloopfarm.com."
      }
     },
     {
@@ -340,13 +341,15 @@ h3 { font-size: 26px; }
 .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 600; letter-spacing: -.01em; }
 .logo svg { width: 32px; height: 32px; flex: none; }
 .logo small { display: block; font-family: var(--mono); font-weight: 400; font-size: 10px; letter-spacing: .12em; color: var(--ink-3); text-transform: uppercase; margin-top: -2px; }
-.nav-links { display: flex; gap: 28px; list-style: none; font-size: 14.5px; }
+.nav-links { display: flex; gap: 22px; list-style: none; font-size: 14.5px; white-space: nowrap; }
+.logo > span { white-space: nowrap; }
 .nav-links a { text-decoration: none; color: var(--ink-2); transition: color .2s; }
 .nav-links a:hover { color: var(--forest); }
 .btn {
   display: inline-flex; align-items: center; gap: 8px; text-decoration: none; cursor: pointer;
   font: 500 15px/1 var(--sans); padding: 13px 22px; border-radius: 999px; border: 1px solid transparent;
   transition: background .2s, color .2s, border-color .2s, transform .2s;
+  white-space: nowrap;
 }
 .btn:hover { transform: translateY(-1px); }
 .btn-primary { background: var(--forest); color: var(--cream); }
@@ -354,9 +357,13 @@ h3 { font-size: 26px; }
 .btn-ghost { border-color: rgba(14,26,17,.2); color: var(--ink); }
 .btn-ghost:hover { border-color: var(--forest); color: var(--forest); }
 .btn-sm { padding: 10px 16px; font-size: 14px; }
+.nav-cta { display: flex; gap: 8px; }
+.nav-app-mobile { display: none; }
 .nav-toggle { display: none; background: none; border: 0; width: 40px; height: 40px; cursor: pointer; color: var(--ink); }
-@media (max-width: 920px) {
-  .nav-links, #nav .btn { display: none; }
+@media (max-width: 1179px) {
+  .nav-links, #nav .btn, .nav-cta { display: none; }
+  #nav.open .nav-app-mobile { display: block; }
+  #nav.open .nav-app-mobile a { color: var(--forest); font-weight: 600; }
   .nav-toggle { display: inline-grid; place-items: center; }
   #nav.open .nav-links {
     display: flex; flex-direction: column; gap: 0; position: absolute; top: var(--nav-h); left: 0; right: 0;
@@ -504,6 +511,10 @@ section { padding: var(--sec) 0; }
 .app h2 em { color: var(--gold); }
 .app .lead { color: rgba(248,244,237,.75); }
 .app-grid { display: grid; grid-template-columns: 1fr 360px; gap: clamp(32px, 5vw, 80px); align-items: center; position: relative; }
+.app-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 26px; }
+.app-cta span { font-family: var(--mono); font-size: 12.5px; color: rgba(248,244,237,.6); }
+.btn-gold { background: var(--gold); color: var(--night); }
+.btn-gold:hover { background: #d9a733; }
 .features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 40px; }
 .feature { background: var(--night-2); border: 1px solid rgba(255,255,255,.07); border-radius: var(--radius); padding: 20px; }
 .feature .ic { width: 38px; height: 38px; border-radius: 10px; background: rgba(122,170,138,.14); display: grid; place-items: center; margin-bottom: 12px; color: var(--sage); }
@@ -642,8 +653,9 @@ footer nav { display: flex; gap: 20px; flex-wrap: wrap; }
       <li><a href="#specs">Specs</a></li>
       <li><a href="#roadmap">Roadmap</a></li>
       <li><a href="#faq">FAQ</a></li>
+      <li class="nav-app-mobile"><a href="https://app.hydroloopfarm.com" target="_blank" rel="noopener">Open the app ↗</a></li>
     </ul>
-    <a class="btn btn-primary btn-sm" href="#contact">Get in touch</a>
+    <div class="nav-cta"><a class="btn btn-ghost btn-sm" href="#contact">Contact</a><a class="btn btn-primary btn-sm" href="https://app.hydroloopfarm.com" target="_blank" rel="noopener">Open the app <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
     <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
     </button>
@@ -667,7 +679,7 @@ footer nav { display: flex; gap: 20px; flex-wrap: wrap; }
           <a class="btn btn-primary" href="#module">Discover the module
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
-          <a class="btn btn-ghost" href="#app">See the app</a>
+          <a class="btn btn-ghost" href="https://app.hydroloopfarm.com" target="_blank" rel="noopener">Open the app <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
         </div>
       </div>
       <figure class="hero-figure">
@@ -959,6 +971,10 @@ footer nav { display: flex; gap: 20px; flex-wrap: wrap; }
           <span class="eyebrow">The companion app</span>
           <h2>Every batch, <em>followed from seed to harvest.</em></h2>
           <p class="lead">Each module comes with the HydroLoop Farm Manager, a web app developed by <strong style="color:var(--cream)">AIWorkPay</strong> that installs on any phone. Growers log a batch in a few taps, see what needs attention and get a clear report on what to adjust.</p>
+          <div class="app-cta">
+            <a class="btn btn-gold" href="https://app.hydroloopfarm.com" target="_blank" rel="noopener">Open HydroLoop Farm Manager <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+            <span>app.hydroloopfarm.com · sign-in provided with each module</span>
+          </div>
         </div>
         <div class="features">
           <div class="feature reveal">
@@ -1197,7 +1213,7 @@ footer nav { display: flex; gap: 20px; flex-wrap: wrap; }
       </details>
       <details>
         <summary>What does the companion app do?</summary>
-        <p>The HydroLoop Farm Manager, developed by AIWorkPay, logs each batch from seed to harvest, raises alerts on pH, EC, dissolved oxygen, solution temperature and NFT flow, produces an AI agronomy report, predicts the harvest window, generates a QR code per batch, shows analytics and works offline with cloud sync.</p>
+        <p>The HydroLoop Farm Manager, developed by AIWorkPay, logs each batch from seed to harvest, raises alerts on pH, EC, dissolved oxygen, solution temperature and NFT flow, produces an AI agronomy report, predicts the harvest window, generates a QR code per batch, shows analytics and works offline with cloud sync. It is available at https://app.hydroloopfarm.com.</p>
       </details>
       <details>
         <summary>How is traceability handled?</summary>
@@ -1238,6 +1254,10 @@ footer nav { display: flex; gap: 20px; flex-wrap: wrap; }
           <div><small>Phone</small><strong>+33 6 02 40 51 47</strong></div>
           <svg class="arr" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
+        <a href="https://app.hydroloopfarm.com" target="_blank" rel="noopener">
+          <div><small>Application</small><strong>app.hydroloopfarm.com</strong></div>
+          <svg class="arr" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
         <a href="https://wa.me/33602405147" target="_blank" rel="noopener">
           <div><small>WhatsApp</small><strong>Message us</strong></div>
           <svg class="arr" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -1255,6 +1275,7 @@ footer nav { display: flex; gap: 20px; flex-wrap: wrap; }
     <nav>
       <a href="#module">Module</a>
       <a href="#app">App</a>
+      <a href="https://app.hydroloopfarm.com" target="_blank" rel="noopener">Open the app</a>
       <a href="#specs">Specs</a>
       <a href="#faq">FAQ</a>
       <a href="index.md" type="text/markdown">Markdown</a>
