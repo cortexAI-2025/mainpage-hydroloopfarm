@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://hydroloopfarm.com/</loc>
+    <lastmod>2026-10-04</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hydroloopfarm.com/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://hydroloopfarm.com/hydroloop-farm-bilingue.html"/>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://hydroloopfarm.com/hydroloop-farm-bilingue.html</loc>
+    <lastmod>2026-10-04</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hydroloopfarm.com/index.md</loc>
+    <lastmod>2026-10-04</lastmod>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://hydroloopfarm.com/llms.txt</loc>
+    <lastmod>2026-10-04</lastmod>
+    <priority>0.5</priority>
+  </url>
+</urlset>
