@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HydroLoop Farm — Modular vertical hydroponics, made in Morocco</title>
+<meta name="description" content="HydroLoop Farm is a Moroccan, patent-pending A-Frame NFT growing module with three independent nutrient loops, continuous cohort rotation and a companion app that tracks every batch from seed to harvest.">
+<meta property="og:title" content="HydroLoop Farm — Modular vertical hydroponics, made in Morocco">
+<meta property="og:description" content="A-Frame NFT module with three independent nutrient loops, a harvest every 20–27 days and a companion app for seed-to-batch tracking.">
+<meta property="og:image" content="https://hydroloopfarm.com/assets/greenhouse-aframe.jpg">
+<meta property="og:url" content="https://hydroloopfarm.com/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#1a5c38">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231a5c38'/%3E%3Cpath d='M6 25 16 7l10 18' fill='none' stroke='%23f8f4ed' stroke-width='2.4' stroke-linejoin='round'/%3E%3Cpath d='M10 19h12M12.5 14.5h7' stroke='%23c8961e' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+
+:root {
+  --ink: #0e1a11;
+  --ink-2: #3a4a3f;
+  --ink-3: #6a7a6f;
+  --forest: #1a5c38;
+  --moss: #2d7a50;
+  --sage: #7aaa8a;
+  --mist: #d6ead9;
+  --cream: #f8f4ed;
+  --pale: #f1ede4;
+  --stone: #e3ddd1;
+  --gold: #c8961e;
+  --gold-lt: #fbf0d6;
+  --terra: #b4553a;
+  --night: #0f1f16;
+  --night-2: #16291e;
+  --white: #ffffff;
+
+  --l1: #3f8f62;
+  --l2: #c8961e;
+  --l3: #b4553a;
+
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Instrument Sans', system-ui, sans-serif;
+  --mono: 'DM Mono', ui-monospace, monospace;
+
+  --wrap: 1180px;
+  --gutter: clamp(16px, 5vw, 48px);
+  --sec: clamp(72px, 10vw, 128px);
+  --nav-h: 64px;
+  --radius: 14px;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.65;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+.wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gutter); }
+
+/* ── Type ─────────────────────────────────────────── */
+.eyebrow {
+  font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--moss); display: inline-flex; align-items: center; gap: 10px;
+}
+.eyebrow::before { content: ''; width: 22px; height: 1px; background: currentColor; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 500; line-height: 1.08; letter-spacing: -.01em; }
+h2 { font-size: clamp(34px, 4.6vw, 54px); margin: 14px 0 18px; }
+h2 em, h1 em { font-style: italic; color: var(--forest); }
+h3 { font-size: 26px; }
+.lead { font-size: clamp(17px, 1.6vw, 19px); color: var(--ink-2); max-width: 640px; }
+.mono { font-family: var(--mono); }
+
+/* ── Nav ──────────────────────────────────────────── */
+#nav {
+  position: fixed; inset: 0 0 auto 0; height: var(--nav-h); z-index: 50;
+  background: rgba(248,244,237,.9); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(26,92,56,.08); transition: box-shadow .3s;
+}
+#nav.scrolled { box-shadow: 0 2px 24px rgba(14,26,17,.07); }
+#nav .wrap { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 600; letter-spacing: -.01em; }
+.logo svg { width: 32px; height: 32px; flex: none; }
+.logo small { display: block; font-family: var(--mono); font-weight: 400; font-size: 10px; letter-spacing: .12em; color: var(--ink-3); text-transform: uppercase; margin-top: -2px; }
+.nav-links { display: flex; gap: 28px; list-style: none; font-size: 14.5px; }
+.nav-links a { text-decoration: none; color: var(--ink-2); transition: color .2s; }
+.nav-links a:hover { color: var(--forest); }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; text-decoration: none; cursor: pointer;
+  font: 500 15px/1 var(--sans); padding: 13px 22px; border-radius: 999px; border: 1px solid transparent;
+  transition: background .2s, color .2s, border-color .2s, transform .2s;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn-primary { background: var(--forest); color: var(--cream); }
+.btn-primary:hover { background: var(--moss); }
+.btn-ghost { border-color: rgba(14,26,17,.2); color: var(--ink); }
+.btn-ghost:hover { border-color: var(--forest); color: var(--forest); }
+.btn-sm { padding: 10px 16px; font-size: 14px; }
+.nav-toggle { display: none; background: none; border: 0; width: 40px; height: 40px; cursor: pointer; color: var(--ink); }
+@media (max-width: 920px) {
+  .nav-links, #nav .btn { display: none; }
+  .nav-toggle { display: inline-grid; place-items: center; }
+  #nav.open .nav-links {
+    display: flex; flex-direction: column; gap: 0; position: absolute; top: var(--nav-h); left: 0; right: 0;
+    background: var(--cream); border-bottom: 1px solid var(--stone); padding: 8px var(--gutter) 16px;
+  }
+  #nav.open .nav-links a { display: block; padding: 12px 0; border-bottom: 1px solid var(--stone); }
+}
+
+/* ── Hero ─────────────────────────────────────────── */
+.hero { padding: calc(var(--nav-h) + clamp(40px, 7vw, 88px)) 0 clamp(48px, 7vw, 88px); position: relative; }
+.hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
+.badge {
+  display: inline-flex; align-items: center; gap: 10px; padding: 7px 14px 7px 8px; border-radius: 999px;
+  background: var(--white); border: 1px solid var(--stone); font-size: 13.5px; color: var(--ink-2);
+}
+.badge .flag { width: 22px; height: 15px; border-radius: 3px; background: #c1272d; display: grid; place-items: center; }
+.badge .flag svg { width: 11px; height: 11px; }
+.hero h1 { font-size: clamp(52px, 8vw, 104px); margin: 22px 0 22px; line-height: .98; }
+.hero .lead { margin-bottom: 34px; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.hero-figure { position: relative; }
+.hero-figure img { border-radius: 22px; aspect-ratio: 4 / 4.3; object-fit: cover; width: 100%; box-shadow: 0 30px 60px -30px rgba(14,26,17,.45); }
+.hero-tag {
+  position: absolute; left: -28px; bottom: 34px; background: var(--white); border-radius: 14px; padding: 16px 18px;
+  box-shadow: 0 18px 40px -18px rgba(14,26,17,.35); display: flex; gap: 14px; align-items: center; max-width: 280px;
+}
+.hero-tag .dot { width: 40px; height: 40px; border-radius: 10px; background: var(--mist); display: grid; place-items: center; flex: none; }
+.hero-tag strong { display: block; font-size: 14.5px; }
+.hero-tag span { font-size: 13px; color: var(--ink-3); }
+.hero-tag.top { left: auto; right: -20px; top: 28px; bottom: auto; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: clamp(48px, 7vw, 80px); border-top: 1px solid var(--stone); }
+.stat { padding: 26px 20px 0 0; }
+.stat + .stat { padding-left: 20px; border-left: 1px solid var(--stone); }
+.stat b { font-family: var(--serif); font-weight: 500; font-size: clamp(36px, 4.4vw, 52px); line-height: 1; color: var(--forest); display: block; }
+.stat span { font-size: 14px; color: var(--ink-2); display: block; margin-top: 8px; }
+@media (max-width: 920px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-tag { left: 12px; bottom: 12px; }
+  .hero-tag.top { right: 12px; top: 12px; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stat:nth-child(3) { padding-left: 0; border-left: 0; }
+  .stat { padding-bottom: 22px; }
+}
+@media (max-width: 560px) {
+  .hero-tag { padding: 10px 12px; gap: 10px; max-width: 220px; border-radius: 12px; }
+  .hero-tag .dot { width: 30px; height: 30px; border-radius: 8px; }
+  .hero-tag strong { font-size: 13px; }
+  .hero-tag span { font-size: 11.5px; line-height: 1.35; display: block; }
+}
+
+/* ── Sections ─────────────────────────────────────── */
+section { padding: var(--sec) 0; }
+.sec-head { max-width: 760px; margin-bottom: clamp(40px, 6vw, 64px); }
+.sec-pale { background: var(--pale); }
+.star-rule { display: flex; align-items: center; gap: 14px; color: var(--gold); }
+.star-rule::before, .star-rule::after { content: ''; flex: 1; height: 1px; background: var(--stone); }
+
+/* Problem cards */
+.cards-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.card { background: var(--white); border: 1px solid var(--stone); border-radius: var(--radius); padding: 26px 24px; }
+.card .num { font-family: var(--mono); font-size: 12px; color: var(--ink-3); letter-spacing: .1em; }
+.card h3 { font-size: 23px; margin: 14px 0 10px; }
+.card p { font-size: 15.5px; color: var(--ink-2); }
+.card .fix { margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--stone); font-size: 14.5px; color: var(--forest); font-weight: 500; }
+@media (max-width: 1000px) { .cards-4 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .cards-4 { grid-template-columns: 1fr; } }
+
+/* Module diagram */
+.module-grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: clamp(28px, 4vw, 56px); align-items: start; }
+.diagram { background: var(--white); border: 1px solid var(--stone); border-radius: 20px; padding: clamp(14px, 2.5vw, 28px); }
+.diagram svg { width: 100%; height: auto; display: block; }
+.diagram figcaption { font-size: 13px; color: var(--ink-3); margin-top: 10px; font-family: var(--mono); }
+.levels { display: grid; gap: 14px; }
+.level { display: grid; grid-template-columns: 52px 1fr; gap: 16px; padding: 18px 20px; border-radius: var(--radius); background: var(--white); border: 1px solid var(--stone); }
+.level .tag { width: 52px; height: 52px; border-radius: 12px; display: grid; place-items: center; color: #fff; font-family: var(--mono); font-weight: 500; }
+.level h4 { font-size: 16.5px; font-weight: 600; }
+.level p { font-size: 14.5px; color: var(--ink-2); margin-top: 2px; }
+.level .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.chip { font-family: var(--mono); font-size: 12px; padding: 4px 9px; border-radius: 6px; background: var(--pale); color: var(--ink-2); }
+.module-note { margin-top: 18px; font-size: 15px; color: var(--ink-2); }
+@media (max-width: 960px) { .module-grid { grid-template-columns: 1fr; } }
+
+/* Rotation */
+.rotation { display: grid; grid-template-columns: 1fr 1.15fr; gap: clamp(28px, 4vw, 64px); align-items: center; }
+.timeline { list-style: none; position: relative; }
+.timeline::before { content: ''; position: absolute; left: 15px; top: 8px; bottom: 8px; width: 2px; background: var(--stone); }
+.timeline li { position: relative; padding: 0 0 22px 50px; }
+.timeline li:last-child { padding-bottom: 0; }
+.timeline li::before {
+  content: ''; position: absolute; left: 8px; top: 5px; width: 16px; height: 16px; border-radius: 50%;
+  background: var(--cream); border: 3px solid var(--c, var(--sage));
+}
+.timeline .d { font-family: var(--mono); font-size: 12.5px; color: var(--ink-3); letter-spacing: .05em; }
+.timeline strong { display: block; font-size: 16.5px; margin: 2px 0; }
+.timeline p { font-size: 14.5px; color: var(--ink-2); }
+
+.sim { background: var(--night); color: var(--cream); border-radius: 22px; padding: clamp(20px, 3vw, 34px); }
+.sim-top { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.sim-top h3 { color: var(--cream); font-size: 24px; }
+.sim-day { font-family: var(--mono); font-size: 14px; color: var(--sage); }
+.sim-day b { font-size: 28px; color: var(--cream); font-weight: 500; }
+.sim-rows { display: grid; gap: 10px; margin: 22px 0 20px; }
+.sim-row { display: grid; grid-template-columns: 92px 1fr; gap: 12px; align-items: center; }
+.sim-row .lbl { font-family: var(--mono); font-size: 12px; color: rgba(248,244,237,.6); }
+.sim-row .lbl b { display: block; color: var(--cream); font-size: 13px; font-weight: 500; }
+.sim-track { height: 46px; border-radius: 10px; background: var(--night-2); position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,.06); }
+.sim-fill { position: absolute; inset: 0 auto 0 0; border-radius: 9px; transition: width .25s ease; }
+.sim-txt { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 14px; font-size: 13.5px; font-family: var(--mono); }
+.sim-ctrl { display: flex; align-items: center; gap: 14px; }
+.sim-ctrl input[type=range] { flex: 1; accent-color: var(--gold); min-width: 0; }
+.sim-ctrl button { background: var(--gold); color: var(--night); border: 0; border-radius: 999px; padding: 9px 16px; font: 600 13.5px var(--sans); cursor: pointer; white-space: nowrap; }
+.sim-out { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+.sim-out div { background: var(--night-2); border-radius: 12px; padding: 12px 14px; }
+.sim-out b { display: block; font-family: var(--serif); font-size: 30px; font-weight: 500; line-height: 1.1; }
+.sim-out span { font-size: 12.5px; color: rgba(248,244,237,.6); }
+.sim-note { font-size: 12.5px; color: rgba(248,244,237,.5); margin-top: 14px; }
+@media (max-width: 960px) { .rotation { grid-template-columns: 1fr; } }
+@media (max-width: 480px) { .sim-row { grid-template-columns: 64px 1fr; } .sim-out b { font-size: 24px; } }
+
+/* Versions */
+.versions { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.version { border-radius: 22px; overflow: hidden; background: var(--white); border: 1px solid var(--stone); display: flex; flex-direction: column; }
+.version-media { aspect-ratio: 16 / 9; overflow: hidden; position: relative; }
+.version-media img { width: 100%; height: 100%; object-fit: cover; }
+.version-media .pill { position: absolute; top: 16px; left: 16px; background: rgba(14,26,17,.78); color: var(--cream); font-family: var(--mono); font-size: 12px; padding: 6px 12px; border-radius: 999px; letter-spacing: .06em; }
+.version-body { padding: 26px 28px 30px; }
+.version-body h3 { font-size: 32px; }
+.version-body > p { color: var(--ink-2); margin: 8px 0 18px; font-size: 15.5px; }
+.ticks { list-style: none; display: grid; gap: 10px; }
+.ticks li { display: grid; grid-template-columns: 20px 1fr; gap: 10px; font-size: 15px; }
+.ticks svg { margin-top: 4px; }
+.spectra { display: grid; gap: 8px; margin-top: 18px; }
+.spectrum { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: center; font-size: 13.5px; }
+.spectrum i { height: 10px; border-radius: 5px; display: block; }
+.spectrum span { font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
+@media (max-width: 860px) { .versions { grid-template-columns: 1fr; } }
+
+/* App */
+.app { background: var(--night); color: var(--cream); position: relative; overflow: hidden; }
+.app::before {
+  content: ''; position: absolute; width: 720px; height: 720px; right: -220px; top: -260px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(45,122,80,.35), transparent 65%); pointer-events: none;
+}
+.app .eyebrow { color: var(--sage); }
+.app h2 em { color: var(--gold); }
+.app .lead { color: rgba(248,244,237,.75); }
+.app-grid { display: grid; grid-template-columns: 1fr 360px; gap: clamp(32px, 5vw, 80px); align-items: center; position: relative; }
+.features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 40px; }
+.feature { background: var(--night-2); border: 1px solid rgba(255,255,255,.07); border-radius: var(--radius); padding: 20px; }
+.feature .ic { width: 38px; height: 38px; border-radius: 10px; background: rgba(122,170,138,.14); display: grid; place-items: center; margin-bottom: 12px; color: var(--sage); }
+.feature h4 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.feature p { font-size: 14px; color: rgba(248,244,237,.68); }
+
+.phone {
+  width: 100%; max-width: 340px; margin: 0 auto; border-radius: 44px; padding: 12px; background: #050b07;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.08), 0 50px 80px -30px rgba(0,0,0,.7);
+}
+.screen { border-radius: 34px; background: #f3f6f2; color: var(--ink); overflow: hidden; font-size: 13px; }
+.scr-status { display: flex; justify-content: space-between; padding: 12px 22px 6px; font-family: var(--mono); font-size: 11px; color: var(--ink-2); }
+.scr-head { padding: 6px 18px 14px; display: flex; justify-content: space-between; align-items: center; }
+.scr-head b { font-size: 17px; }
+.scr-head small { display: block; color: var(--ink-3); font-size: 11.5px; }
+.scr-qr { width: 38px; height: 38px; border-radius: 8px; background: var(--white); border: 1px solid var(--stone); display: grid; place-items: center; }
+.scr-card { background: var(--white); margin: 0 12px 10px; border-radius: 16px; padding: 14px; border: 1px solid #e5ebe4; }
+.scr-row { display: flex; justify-content: space-between; align-items: center; }
+.phase { font-size: 11px; font-weight: 600; padding: 4px 8px; border-radius: 6px; background: #fdf0d2; color: #8a6510; }
+.scr-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+.scr-metrics div { background: #f3f6f2; border-radius: 10px; padding: 8px 10px; }
+.scr-metrics span { font-size: 10.5px; color: var(--ink-3); font-family: var(--mono); }
+.scr-metrics b { display: block; font-size: 16px; font-weight: 600; }
+.scr-metrics .ok { color: var(--forest); }
+.scr-metrics .warn { color: #a3600c; }
+.scr-alert { display: flex; gap: 8px; align-items: flex-start; background: #fff6e6; border: 1px solid #f3dcae; color: #7a4d06; border-radius: 12px; padding: 10px 12px; font-size: 12px; margin-top: 10px; }
+.bar { height: 7px; border-radius: 4px; background: #e4ebe3; overflow: hidden; margin: 8px 0 6px; }
+.bar i { display: block; height: 100%; width: 58%; background: linear-gradient(90deg, var(--l1), var(--l2)); border-radius: 4px; }
+.scr-ai { font-size: 12px; color: var(--ink-2); line-height: 1.5; }
+.scr-ai b { color: var(--ink); }
+.scr-nav { display: grid; grid-template-columns: repeat(4, 1fr); padding: 10px 6px 16px; border-top: 1px solid #e5ebe4; background: var(--white); text-align: center; font-size: 10.5px; color: var(--ink-3); }
+.scr-nav .on { color: var(--forest); font-weight: 600; }
+.mock-note { text-align: center; font-family: var(--mono); font-size: 11.5px; color: rgba(248,244,237,.45); margin-top: 14px; }
+@media (max-width: 960px) { .app-grid { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .features { grid-template-columns: 1fr; } }
+
+/* Traceability */
+.trace { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 4vw, 64px); align-items: center; }
+.passport { background: var(--white); border: 1px solid var(--stone); border-radius: 20px; padding: 26px; position: relative; }
+.passport-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid var(--stone); margin-bottom: 8px; gap: 12px; }
+.passport-head b { font-family: var(--mono); font-size: 15px; font-weight: 500; }
+.passport-head small { display: block; color: var(--ink-3); font-size: 12px; }
+.passport dl { display: grid; grid-template-columns: auto 1fr; }
+.passport dt, .passport dd { padding: 10px 0; border-bottom: 1px dashed var(--stone); font-size: 14px; }
+.passport dt { color: var(--ink-3); padding-right: 18px; }
+.passport dd { text-align: right; font-family: var(--mono); font-size: 13px; }
+.passport dl > :nth-last-child(-n+2) { border-bottom: 0; }
+.standards { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+.standards span { border: 1px solid var(--stone); background: var(--white); border-radius: 999px; padding: 7px 14px; font-size: 13.5px; font-weight: 500; }
+@media (max-width: 900px) { .trace { grid-template-columns: 1fr; } }
+
+/* Specs */
+.specs { width: 100%; border-collapse: collapse; background: var(--white); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--stone); }
+.specs th, .specs td { text-align: left; padding: 15px 22px; border-bottom: 1px solid var(--stone); font-size: 15px; vertical-align: top; }
+.specs tr:last-child th, .specs tr:last-child td { border-bottom: 0; }
+.specs th { width: 34%; font-weight: 500; color: var(--ink-2); background: #fbf9f5; }
+.specs td { font-family: var(--mono); font-size: 14px; }
+@media (max-width: 640px) {
+  .specs, .specs tbody, .specs tr, .specs th, .specs td { display: block; width: 100%; }
+  .specs th { border-bottom: 0; padding-bottom: 2px; background: none; font-size: 13px; color: var(--ink-3); }
+  .specs td { padding-top: 0; }
+}
+
+/* Impact */
+.impact { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.impact .card b { font-family: var(--serif); font-size: 46px; font-weight: 500; color: var(--forest); line-height: 1; display: block; margin-bottom: 10px; }
+.regions { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; color: var(--ink-2); font-size: 15px; }
+.regions span { font-family: var(--mono); font-size: 13px; background: var(--mist); color: var(--forest); padding: 6px 12px; border-radius: 999px; }
+@media (max-width: 860px) { .impact { grid-template-columns: 1fr; } }
+
+/* Roadmap */
+.roadmap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; counter-reset: ph; }
+.phase-card { border-top: 3px solid var(--c); background: var(--white); border-radius: 4px 4px var(--radius) var(--radius); padding: 24px; border-left: 1px solid var(--stone); border-right: 1px solid var(--stone); border-bottom: 1px solid var(--stone); }
+.phase-card .when { font-family: var(--mono); font-size: 12.5px; color: var(--ink-3); letter-spacing: .06em; }
+.phase-card h3 { margin: 6px 0 14px; font-size: 26px; }
+.phase-card ul { list-style: none; display: grid; gap: 8px; }
+.phase-card li { font-size: 14.5px; color: var(--ink-2); padding-left: 16px; position: relative; }
+.phase-card li::before { content: ''; position: absolute; left: 0; top: 10px; width: 6px; height: 6px; border-radius: 50%; background: var(--c); }
+@media (max-width: 860px) { .roadmap { grid-template-columns: 1fr; } }
+
+/* Contact */
+.contact { background: var(--forest); color: var(--cream); }
+.contact .eyebrow { color: var(--mist); }
+.contact h2 em { color: var(--gold); }
+.contact-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(28px, 5vw, 72px); align-items: start; }
+.contact .lead { color: rgba(248,244,237,.82); }
+.founder { margin-top: 32px; display: flex; gap: 16px; align-items: center; }
+.founder .av { width: 56px; height: 56px; border-radius: 50%; background: var(--gold); color: var(--forest); display: grid; place-items: center; font-family: var(--serif); font-size: 24px; font-weight: 600; flex: none; }
+.founder b { display: block; font-size: 17px; }
+.founder span { font-size: 14px; color: rgba(248,244,237,.7); }
+.contact-box { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); border-radius: 20px; padding: 10px 24px; }
+.contact-box a { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 0; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.12); }
+.contact-box a:last-child { border-bottom: 0; }
+.contact-box small { display: block; font-family: var(--mono); font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; color: rgba(248,244,237,.6); }
+.contact-box strong { font-size: 17px; font-weight: 500; word-break: break-word; }
+.contact-box .arr { flex: none; opacity: .7; transition: transform .2s; }
+.contact-box a:hover .arr { transform: translateX(4px); opacity: 1; }
+.audience { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.audience span { font-size: 13px; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.2); color: rgba(248,244,237,.85); }
+@media (max-width: 860px) { .contact-grid { grid-template-columns: 1fr; } }
+
+footer { background: var(--night); color: rgba(248,244,237,.6); padding: 36px 0; font-size: 13.5px; }
+footer .wrap { display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; align-items: center; }
+footer a { color: rgba(248,244,237,.85); text-decoration: none; }
+footer a:hover { color: var(--gold); }
+footer nav { display: flex; gap: 20px; flex-wrap: wrap; }
+
+/* Reveal */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
+.reveal.in { opacity: 1; transform: none; }
+.no-js .reveal { opacity: 1; transform: none; }
+</style>
+</head>
+<body class="no-js">
+
+<header id="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="HydroLoop Farm home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#1a5c38"/><path d="M6 25 16 7l10 18" fill="none" stroke="#f8f4ed" stroke-width="2.2" stroke-linejoin="round"/><path d="M10.2 19.5h11.6M12.8 14.8h6.4" stroke="#c8961e" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <span>HydroLoop Farm<small>Made in Morocco</small></span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#module">The module</a></li>
+      <li><a href="#rotation">Rotation</a></li>
+      <li><a href="#app">The app</a></li>
+      <li><a href="#traceability">Traceability</a></li>
+      <li><a href="#specs">Specs</a></li>
+      <li><a href="#roadmap">Roadmap</a></li>
+    </ul>
+    <a class="btn btn-primary btn-sm" href="#contact">Get in touch</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="badge">
+          <span class="flag" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 17.3 19.3 3.4 9.2h17.2L6.7 19.3z" fill="none" stroke="#006233" stroke-width="2.2" stroke-linejoin="round"/></svg></span>
+          A Moroccan innovation · Patent pending
+        </span>
+        <h1>Grow more, <em>on less</em> ground.</h1>
+        <p class="lead">HydroLoop Farm is a modular A-Frame hydroponic system with three independent nutrient loops and a continuous cohort rotation — so a module harvests every 20–27 days, all year. A companion app follows every batch from seed to harvest.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#module">Discover the module
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="#app">See the app</a>
+        </div>
+      </div>
+      <figure class="hero-figure">
+        <img src="assets/greenhouse-aframe.jpg" width="1536" height="1024" alt="Rows of white A-Frame NFT growing modules with leafy crops inside a polycarbonate greenhouse" fetchpriority="high">
+        <div class="hero-tag top">
+          <span class="dot"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a5c38" stroke-width="2" stroke-linecap="round"><path d="M12 3c3.5 4 6 7.2 6 10.5A6 6 0 0 1 6 13.5C6 10.2 8.5 7 12 3z"/></svg></span>
+          <div><strong>&gt; 80% water saved</strong><span>Closed-loop NFT vs. soil growing</span></div>
+        </div>
+        <div class="hero-tag">
+          <span class="dot"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a5c38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10 18h4"/></svg></span>
+          <div><strong>Seed-to-batch app</strong><span>Alerts, AI reports, QR passports</span></div>
+        </div>
+      </figure>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>3</b><span>independent nutrient loops — one per growth stage</span></div>
+      <div class="stat"><b>48</b><span>plants per module, 16 on each level</span></div>
+      <div class="stat"><b>20–27</b><span>days between harvests, with no idle period</span></div>
+      <div class="stat"><b>4 m²</b><span>footprint for a 2.0 × 2.0 × 1.5 m module</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROBLEM ═══ -->
+<section class="sec-pale" id="why">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Why HydroLoop</span>
+      <h2>Vertical farms grow upward. <em>We also grow forward.</em></h2>
+      <p class="lead">Conventional vertical NFT systems stack plants but treat them as a single crop. HydroLoop was designed around the fact that every stage of a plant's life needs something different.</p>
+    </div>
+    <div class="cards-4">
+      <article class="card reveal">
+        <span class="num">01 — NUTRITION</span>
+        <h3>One tank for every stage</h3>
+        <p>A single shared solution makes it impossible to tune pH, EC and nutrient balance to each cohort.</p>
+        <p class="fix">→ One sealed loop per level, no backflow.</p>
+      </article>
+      <article class="card reveal">
+        <span class="num">02 — LIGHT</span>
+        <h3>Upper levels shade lower ones</h3>
+        <p>Stacked shelves leave the bottom rows in the dark and the harvest uneven.</p>
+        <p class="fix">→ Staggered A-Frame, 10 cm anti-shading offset.</p>
+      </article>
+      <article class="card reveal">
+        <span class="num">03 — CADENCE</span>
+        <h3>Harvest, then wait</h3>
+        <p>Batch systems empty, clean and replant — weeks with no output and irregular cash flow.</p>
+        <p class="fix">→ Calibrated cohort rotation, continuous output.</p>
+      </article>
+      <article class="card reveal">
+        <span class="num">04 — RECORDS</span>
+        <h3>Paper-based traceability</h3>
+        <p>Regulated buyers need batch-level records that most farms can't produce reliably.</p>
+        <p class="fix">→ A digital passport for every cohort.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MODULE ═══ -->
+<section id="module">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">The module</span>
+      <h2>Three levels. Three loops. <em>One frame.</em></h2>
+      <p class="lead">A self-supporting A-Frame in galvanised steel or anodised aluminium carries three levels of food-grade PVC NFT channels. Each level is its own growing chamber, with a dedicated reservoir, pump and aeration.</p>
+    </div>
+
+    <div class="module-grid">
+      <figure class="diagram reveal">
+        <svg viewBox="8 102 700 362" role="img" aria-labelledby="dgTitle dgDesc">
+          <title id="dgTitle">HydroLoop A-Frame module, end view</title>
+          <desc id="dgDesc">An A-shaped frame two metres wide and one and a half metres tall carries NFT channels on both faces at three heights. Level 1 at the bottom is 200 millimetres wide, level 2 is 300 millimetres and level 3 at the top is 400 millimetres. Three separate reservoirs on the floor, of 100, 50 and 50 litres, each feed one level through their own pipe.</desc>
+          <defs>
+            <pattern id="ground" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="10" stroke="#e3ddd1" stroke-width="3"/></pattern>
+          </defs>
+          <!-- ground -->
+          <rect x="30" y="420" width="460" height="14" fill="url(#ground)"/>
+          <line x1="30" y1="420" x2="490" y2="420" stroke="#b9b2a4" stroke-width="1.5"/>
+          <!-- frame -->
+          <g stroke="#8a948c" stroke-width="7" stroke-linecap="round" fill="none">
+            <path d="M60 420 260 120 460 420"/>
+          </g>
+          <g stroke="#a9b1aa" stroke-width="4" stroke-linecap="round">
+            <line x1="133" y1="310" x2="387" y2="310"/>
+            <line x1="187" y1="230" x2="333" y2="230"/>
+            <line x1="233" y1="160" x2="287" y2="160"/>
+          </g>
+          <!-- supply lines -->
+          <g fill="none" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">
+            <path d="M125 376 V340 H133 V318" stroke="#3f8f62"/>
+            <path d="M232 376 V252 H187 V238" stroke="#c8961e"/>
+            <path d="M312 376 V186 H233 V168" stroke="#b4553a"/>
+          </g>
+          <!-- reservoirs -->
+          <g font-family="DM Mono, monospace" font-size="12" text-anchor="middle">
+            <rect x="96" y="376" width="80" height="40" rx="5" fill="#e6f1e9" stroke="#3f8f62" stroke-width="2"/>
+            <text x="136" y="401" fill="#1a5c38">R1 · 100 L</text>
+            <rect x="200" y="376" width="64" height="40" rx="5" fill="#fbf0d6" stroke="#c8961e" stroke-width="2"/>
+            <text x="232" y="401" fill="#7a5a10">R2 · 50 L</text>
+            <rect x="280" y="376" width="64" height="40" rx="5" fill="#f7e3dc" stroke="#b4553a" stroke-width="2"/>
+            <text x="312" y="401" fill="#8a3a24">R3 · 50 L</text>
+          </g>
+          <!-- channels: level 1 (20px), level 2 (30px), level 3 (40px) -->
+          <g>
+            <rect x="123" y="303" width="20" height="14" rx="3" fill="#fff" stroke="#3f8f62" stroke-width="2.5"/>
+            <rect x="377" y="303" width="20" height="14" rx="3" fill="#fff" stroke="#3f8f62" stroke-width="2.5"/>
+            <rect x="172" y="223" width="30" height="14" rx="3" fill="#fff" stroke="#c8961e" stroke-width="2.5"/>
+            <rect x="318" y="223" width="30" height="14" rx="3" fill="#fff" stroke="#c8961e" stroke-width="2.5"/>
+            <rect x="213" y="153" width="40" height="14" rx="3" fill="#fff" stroke="#b4553a" stroke-width="2.5"/>
+            <rect x="267" y="153" width="40" height="14" rx="3" fill="#fff" stroke="#b4553a" stroke-width="2.5"/>
+          </g>
+          <!-- plants -->
+          <g fill="#3f8f62">
+            <path d="M133 303c-6-4-8-11-6-16 5 2 7 8 6 16zm0 0c6-4 8-11 6-16-5 2-7 8-6 16z"/>
+            <path d="M387 303c-6-4-8-11-6-16 5 2 7 8 6 16zm0 0c6-4 8-11 6-16-5 2-7 8-6 16z"/>
+          </g>
+          <g fill="#2d7a50">
+            <path d="M187 223c-10-6-14-18-10-26 8 4 11 14 10 26zm0 0c10-6 14-18 10-26-8 4-11 14-10 26zm0 0c-2-12 0-24 0-30 0 6 2 18 0 30z"/>
+            <path d="M333 223c-10-6-14-18-10-26 8 4 11 14 10 26zm0 0c10-6 14-18 10-26-8 4-11 14-10 26zm0 0c-2-12 0-24 0-30 0 6 2 18 0 30z"/>
+          </g>
+          <g fill="#1a5c38">
+            <path d="M233 153c-14-6-20-22-15-34 11 5 16 19 15 34zm0 0c14-6 20-22 15-34-11 5-16 19-15 34zm0 0c-4-14-2-30 0-40 2 10 4 26 0 40z"/>
+            <path d="M287 153c-14-6-20-22-15-34 11 5 16 19 15 34zm0 0c14-6 20-22 15-34-11 5-16 19-15 34zm0 0c-4-14-2-30 0-40 2 10 4 26 0 40z"/>
+          </g>
+          <!-- leaders -->
+          <g stroke="#c9c2b4" stroke-width="1" stroke-dasharray="3 3">
+            <line x1="309" y1="160" x2="500" y2="160"/>
+            <line x1="350" y1="230" x2="500" y2="230"/>
+            <line x1="399" y1="310" x2="500" y2="310"/>
+          </g>
+          <!-- annotations -->
+          <g font-family="Instrument Sans, sans-serif">
+            <circle cx="510" cy="160" r="5" fill="#b4553a"/>
+            <text x="524" y="157" font-size="15" font-weight="600" fill="#0e1a11">Level 3 · Flowering</text>
+            <text x="524" y="176" font-size="12.5" fill="#6a7a6f" font-family="DM Mono, monospace">400 mm · EC 2.4–2.8</text>
+            <circle cx="510" cy="230" r="5" fill="#c8961e"/>
+            <text x="524" y="227" font-size="15" font-weight="600" fill="#0e1a11">Level 2 · Stretch</text>
+            <text x="524" y="246" font-size="12.5" fill="#6a7a6f" font-family="DM Mono, monospace">300 mm · EC 1.8–2.2</text>
+            <circle cx="510" cy="310" r="5" fill="#3f8f62"/>
+            <text x="524" y="307" font-size="15" font-weight="600" fill="#0e1a11">Level 1 · Growth</text>
+            <text x="524" y="326" font-size="12.5" fill="#6a7a6f" font-family="DM Mono, monospace">200 mm · EC 1.2–1.6</text>
+          </g>
+          <!-- dimensions -->
+          <g font-family="DM Mono, monospace" font-size="12" fill="#6a7a6f" text-anchor="middle">
+            <line x1="60" y1="448" x2="460" y2="448" stroke="#b9b2a4"/>
+            <line x1="60" y1="442" x2="60" y2="454" stroke="#b9b2a4"/>
+            <line x1="460" y1="442" x2="460" y2="454" stroke="#b9b2a4"/>
+            <rect x="228" y="440" width="64" height="16" fill="#fff"/>
+            <text x="260" y="452">2.0 m</text>
+            <line x1="30" y1="120" x2="30" y2="420" stroke="#b9b2a4"/>
+            <line x1="24" y1="120" x2="36" y2="120" stroke="#b9b2a4"/>
+            <text x="22" y="275" transform="rotate(-90 22 275)">1.5 m</text>
+            <text x="610" y="400" text-anchor="middle">Pump + air stone</text>
+            <text x="610" y="416" text-anchor="middle">in every reservoir</text>
+          </g>
+        </svg>
+        <figcaption>End view · schematic, not to scale</figcaption>
+      </figure>
+
+      <div>
+        <div class="levels">
+          <div class="level reveal">
+            <span class="tag" style="background:var(--l1)">N1</span>
+            <div>
+              <h4>Vegetative growth</h4>
+              <p>Young plants arrive from the nursery at day 10 and build roots and leaves.</p>
+              <div class="chips"><span class="chip">200 mm channel</span><span class="chip">EC 1.2–1.6 mS/cm</span><span class="chip">100 L tank</span></div>
+            </div>
+          </div>
+          <div class="level reveal">
+            <span class="tag" style="background:var(--l2)">N2</span>
+            <div>
+              <h4>Stretch &amp; pre-flowering</h4>
+              <p>Plants elongate and transition, with a richer solution and more space.</p>
+              <div class="chips"><span class="chip">300 mm channel</span><span class="chip">EC 1.8–2.2 mS/cm</span><span class="chip">50 L tank</span></div>
+            </div>
+          </div>
+          <div class="level reveal">
+            <span class="tag" style="background:var(--l3)">N3</span>
+            <div>
+              <h4>Flowering &amp; maturation</h4>
+              <p>Mature plants take the top position, closest to the light, until harvest.</p>
+              <div class="chips"><span class="chip">400 mm channel</span><span class="chip">EC 2.4–2.8 mS/cm</span><span class="chip">50 L tank</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="module-note reveal">Channels run at a 2% slope (40 mm over 2 m) for a laminar nutrient film of 1–3 mm. No soil, no substrate: roots sit in a recirculating film, so water is reused instead of drained.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ROTATION ═══ -->
+<section class="sec-pale" id="rotation">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Continuous rotation</span>
+      <h2>A cohort moves up. <em>Another one comes in.</em></h2>
+      <p class="lead">Plants don't stay put. At every interval, each cohort climbs one level, the top cohort is harvested and a fresh one enters at the bottom. The module is never empty — and never idle.</p>
+    </div>
+
+    <div class="rotation">
+      <ol class="timeline reveal">
+        <li style="--c:var(--sage)"><span class="d">DAY 0 – 9</span><strong>Germination</strong><p>In a separate nursery, outside the module.</p></li>
+        <li style="--c:var(--l1)"><span class="d">DAY 10</span><strong>Level 1 — growth</strong><p>A cohort of 16 plants per level joins the bottom loop.</p></li>
+        <li style="--c:var(--l2)"><span class="d">+20 to 27 DAYS</span><strong>Level 2 — stretch</strong><p>Moved up; the solution and spacing change with it.</p></li>
+        <li style="--c:var(--l3)"><span class="d">+20 to 27 DAYS</span><strong>Level 3 — flowering</strong><p>Top position, strongest light, maturation profile.</p></li>
+        <li style="--c:var(--gold)"><span class="d">HARVEST</span><strong>Harvest, clean, re-enter</strong><p>Fresh-frozen at −40 °C, level cleaned in place, next cohort moves up.</p></li>
+      </ol>
+
+      <div class="sim reveal" id="sim">
+        <div class="sim-top">
+          <h3>Rotation simulator</h3>
+          <span class="sim-day">Day <b id="simDay">70</b></span>
+        </div>
+        <div class="sim-rows">
+          <div class="sim-row"><span class="lbl"><b>Level 3</b>Flowering</span><div class="sim-track"><i class="sim-fill" data-l="3" style="background:rgba(180,85,58,.5)"></i><div class="sim-txt" data-t="3"></div></div></div>
+          <div class="sim-row"><span class="lbl"><b>Level 2</b>Stretch</span><div class="sim-track"><i class="sim-fill" data-l="2" style="background:rgba(200,150,30,.45)"></i><div class="sim-txt" data-t="2"></div></div></div>
+          <div class="sim-row"><span class="lbl"><b>Level 1</b>Growth</span><div class="sim-track"><i class="sim-fill" data-l="1" style="background:rgba(63,143,98,.5)"></i><div class="sim-txt" data-t="1"></div></div></div>
+          <div class="sim-row"><span class="lbl"><b>Nursery</b>Germination</span><div class="sim-track"><i class="sim-fill" data-l="0" style="background:rgba(122,170,138,.3)"></i><div class="sim-txt" data-t="0"></div></div></div>
+        </div>
+        <div class="sim-ctrl">
+          <label for="simRange" class="mono" style="font-size:12px;color:rgba(248,244,237,.6)">Day</label>
+          <input type="range" id="simRange" min="0" max="200" value="70" aria-describedby="simNote">
+          <button type="button" id="simPlay">▶ Play</button>
+        </div>
+        <div class="sim-out">
+          <div><b id="simHarv">1</b><span>harvests so far</span></div>
+          <div><b id="simIn">4</b><span>cohorts started</span></div>
+          <div><b id="simNext">20</b><span>days to next harvest</span></div>
+        </div>
+        <p class="sim-note" id="simNote">Illustration with a 20-day interval. The real interval is 20–27 days, depending on the cultivar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ VERSIONS ═══ -->
+<section id="versions">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Two versions, one frame</span>
+      <h2>Under the sun, <em>or inside.</em></h2>
+      <p class="lead">Both versions share the same structure, the same independent loops and the same rotation. Only the light changes.</p>
+    </div>
+    <div class="versions">
+      <article class="version reveal">
+        <div class="version-media"><span class="pill">GREENHOUSE</span><img src="assets/greenhouse-aframe.jpg" width="1536" height="1024" loading="lazy" alt="A-Frame modules lined up along the aisle of a translucent greenhouse"></div>
+        <div class="version-body">
+          <h3>HydroLoop Farm</h3>
+          <p>Built for heated greenhouses, from the coast to the mid-mountain areas of the Rif.</p>
+          <ul class="ticks">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a5c38" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Natural sunlight as the main light source</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a5c38" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>LED top-up switches on automatically when a light sensor detects low light</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a5c38" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Greenhouse held at 24–28 °C, natural ventilation and misting</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a5c38" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Lowest running cost, designed for cooperatives</li>
+          </ul>
+        </div>
+      </article>
+      <article class="version reveal">
+        <div class="version-media"><span class="pill">CONTROLLED ENVIRONMENT</span><img src="assets/inside-module.jpg" width="1100" height="1100" loading="lazy" alt="Indoor A-Frame module with LED bars above each level of leafy greens and reservoirs underneath"></div>
+        <div class="version-body">
+          <h3>HydroLoop Inside</h3>
+          <p>For opaque rooms or insulated containers, with full control of every parameter.</p>
+          <ul class="ticks">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a5c38" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Full-spectrum LED only, with a different spectrum on each level</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a5c38" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Sensors for temperature, humidity, CO₂, pH and EC</li>
+          </ul>
+          <div class="spectra">
+            <div class="spectrum"><span>N1</span><div><i style="background:linear-gradient(90deg,#3b6fe0,#9cc3ff,#eef4ff)"></i><span>Blue 450–470 nm + cool white 6500 K</span></div></div>
+            <div class="spectrum"><span>N2</span><div><i style="background:linear-gradient(90deg,#e0352b,#f3d9b0,#7a1020)"></i><span>Red 660 nm + neutral white 4000 K + far-red 730 nm</span></div></div>
+            <div class="spectrum"><span>N3</span><div><i style="background:linear-gradient(90deg,#f5f0e6,#e84a2f,#6d0f1a)"></i><span>Full spectrum enriched in deep red 680–740 nm</span></div></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ APP ═══ -->
+<section class="app" id="app">
+  <div class="wrap">
+    <div class="app-grid">
+      <div>
+        <div class="reveal">
+          <span class="eyebrow">The companion app</span>
+          <h2>Every batch, <em>followed from seed to harvest.</em></h2>
+          <p class="lead">Each module comes with the HydroLoop Farm Manager, a web app that installs on any phone. Growers log a batch in a few taps, see what needs attention and get a clear report on what to adjust.</p>
+        </div>
+        <div class="features">
+          <div class="feature reveal">
+            <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg></span>
+            <h4>Seed-to-batch logbook</h4>
+            <p>Batch ID, cultivar, sowing date, module, phase and day — plus pH, EC, solution temperature, dissolved oxygen, NFT flow, PPFD and photoperiod.</p>
+          </div>
+          <div class="feature reveal">
+            <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg></span>
+            <h4>Instant alerts</h4>
+            <p>Flags readings outside the safe range: pH below 5.5 or above 6.5, dissolved O₂ under 6 mg/L, solution above 22 °C, low NFT flow.</p>
+          </div>
+          <div class="feature reveal">
+            <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M6 18l2-2M16 8l2-2"/><circle cx="12" cy="12" r="3.5"/></svg></span>
+            <h4>AI agronomy report</h4>
+            <p>A structured analysis of roots, leaves, trims and flowers for each batch, with system inefficiencies and recommendations you can act on today.</p>
+          </div>
+          <div class="feature reveal">
+            <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span>
+            <h4>Harvest prediction</h4>
+            <p>Estimated harvest date and window, with a confidence level and what to check on the plants as the date gets closer.</p>
+          </div>
+          <div class="feature reveal">
+            <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg></span>
+            <h4>QR code per batch</h4>
+            <p>Print a label for each cohort. Scanning it opens the batch record — the base of the Taqnin ID Batch passport.</p>
+          </div>
+          <div class="feature reveal">
+            <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>
+            <h4>Analytics &amp; comparisons</h4>
+            <p>Batches by cultivar, alert frequency, phase distribution, environmental averages and side-by-side comparisons of the same cultivar.</p>
+          </div>
+          <div class="feature reveal">
+            <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8.5a15 15 0 0 1 20 0M5.5 12a10 10 0 0 1 13 0M9 15.5a5 5 0 0 1 6 0"/><path d="M12 19h.01"/></svg></span>
+            <h4>Works offline</h4>
+            <p>Installs like a native app and keeps working in the greenhouse without signal. Records sync to the cloud when the connection returns.</p>
+          </div>
+          <div class="feature reveal">
+            <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>
+            <h4>Secure access</h4>
+            <p>Login-protected, so batch data stays with the farm and the people it chooses to share it with.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="phone" aria-label="Illustration of the HydroLoop Farm Manager app showing a batch in the stretch phase" role="img">
+          <div class="screen">
+            <div class="scr-status"><span>09:41</span><span>offline · synced 08:12</span></div>
+            <div class="scr-head">
+              <div><small>Module A-03 · 48 plants</small><b>Batch HL-0214</b></div>
+              <span class="scr-qr"><svg width="24" height="24" viewBox="0 0 24 24" fill="#0e1a11"><path d="M2 2h8v8H2zm2 2v4h4V4zm10-2h8v8h-8zm2 2v4h4V4zM2 14h8v8H2zm2 2v4h4v-4zm9-2h3v3h-3zm4 0h5v2h-3v2h-2zm-4 4h2v4h-2zm3 2h3v2h-3zm4-1h2v3h-2z"/><path d="M5 5h2v2H5zm12 0h2v2h-2zM5 17h2v2H5z"/></svg></span>
+            </div>
+            <div class="scr-card">
+              <div class="scr-row"><b style="font-size:14px">Cultivar A · auto</b><span class="phase">Stretch · day 12</span></div>
+              <div class="scr-metrics">
+                <div><span>pH</span><b class="ok">5.9</b></div>
+                <div><span>EC mS/cm</span><b class="ok">2.0</b></div>
+                <div><span>O₂ dissolved</span><b class="ok">7.4 mg/L</b></div>
+                <div><span>Solution</span><b class="warn">22.6 °C</b></div>
+              </div>
+              <div class="scr-alert">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="flex:none;margin-top:1px"><path d="M12 3l9 16H3z"/><path d="M12 10v4"/></svg>
+                <span>Solution temperature above 22 °C — risk of root pathogens. Check the reservoir shading.</span>
+              </div>
+            </div>
+            <div class="scr-card">
+              <div class="scr-row"><b style="font-size:13px">Cycle progress</b><span class="mono" style="font-size:11px;color:var(--ink-3)">day 44 / 76</span></div>
+              <div class="bar"><i></i></div>
+              <div class="scr-row" style="font-size:11.5px;color:var(--ink-3)"><span>Moves to level 3 in 8 days</span><span>Harvest ≈ 32 days</span></div>
+            </div>
+            <div class="scr-card">
+              <b style="font-size:13px">AI report</b>
+              <p class="scr-ai" style="margin-top:4px"><b>Roots:</b> dense, cream-white, no sign of disease. <b>Action:</b> lower solution temperature by 1–2 °C and keep aeration at its current level.</p>
+            </div>
+            <div class="scr-nav"><span class="on">Batches</span><span>New</span><span>Analytics</span><span>Scan</span></div>
+          </div>
+        </div>
+        <p class="mock-note">Illustrative screen — sample data</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TRACEABILITY ═══ -->
+<section id="traceability">
+  <div class="wrap">
+    <div class="trace">
+      <div class="reveal">
+        <span class="eyebrow">Traceability &amp; compliance</span>
+        <h2>A digital passport <em>for every cohort.</em></h2>
+        <p class="lead">Each cohort gets a unique Taqnin ID Batch identifier the day it enters the module. Genetics, operators, dates, environmental readings, harvest weight and cold-chain data are attached to it — ready for regulated buyers and auditors.</p>
+        <p class="lead" style="margin-top:14px">HydroLoop is designed for markets that require documented, reproducible plant material: medicinal and pharmaceutical botany, nutraceutical actives and cosmetic ingredients, including the regulated medicinal sector opened by Morocco's Law 13-21.</p>
+        <div class="standards">
+          <span>GACP</span><span>Pre-GMP ready</span><span>ANRAC · Law 13-21</span><span>ONSSA</span><span>ISO 22005 traceability</span><span>Génération Green 2030</span>
+        </div>
+      </div>
+      <div class="passport reveal" aria-label="Example batch passport">
+        <div class="passport-head">
+          <div><small>TAQNIN ID BATCH</small><b>HL-A03-2026-0214</b></div>
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="#0e1a11" aria-hidden="true"><path d="M2 2h8v8H2zm2 2v4h4V4zm10-2h8v8h-8zm2 2v4h4V4zM2 14h8v8H2zm2 2v4h4v-4zm9-2h3v3h-3zm4 0h5v2h-3v2h-2zm-4 4h2v4h-2zm3 2h3v2h-3zm4-1h2v3h-2z"/><path d="M5 5h2v2H5zm12 0h2v2h-2zM5 17h2v2H5z"/></svg>
+        </div>
+        <dl>
+          <dt>Genetics</dt><dd>Seedless autoflowering</dd>
+          <dt>Module · level</dt><dd>A-03 · N1 → N2 → N3</dd>
+          <dt>Entered module</dt><dd>day 10 post-germination</dd>
+          <dt>Environment log</dt><dd>pH · EC · T° · RH</dd>
+          <dt>Operator</dt><dd>signed per action</dd>
+          <dt>Harvest</dt><dd>fresh weight · date · time</dd>
+          <dt>Cold chain</dt><dd>−40 °C freezing curve</dd>
+          <dt>Destination</dt><dd>contracted buyer</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SPECS ═══ -->
+<section class="sec-pale" id="specs">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Technical specifications</span>
+      <h2>The module, <em>in numbers.</em></h2>
+    </div>
+    <table class="specs reveal">
+      <tbody>
+        <tr><th scope="row">Frame</th><td>Self-supporting A-Frame · galvanised steel or anodised aluminium 6060 T5</td></tr>
+        <tr><th scope="row">Dimensions</th><td>2.0 m (L) × 2.0 m (W) × 1.5 m (H) · 4 m² footprint</td></tr>
+        <tr><th scope="row">Growing levels</th><td>3 levels of food-grade, UV-resistant PVC NFT channels · 200 / 300 / 400 mm · staggered with 10 cm anti-shading offset</td></tr>
+        <tr><th scope="row">Capacity</th><td>48 plants per module · 16 per level</td></tr>
+        <tr><th scope="row">Nutrient loops</th><td>3 fully independent closed loops · no backflow between levels</td></tr>
+        <tr><th scope="row">Reservoirs</th><td>HDPE · 100 L (N1) · 50 L (N2) · 50 L (N3)</td></tr>
+        <tr><th scope="row">Hydraulics</th><td>Submersible pump per loop, ≥ 30 L/min · Ø25 mm supply / Ø32 mm return · forced aeration · clean-in-place fittings</td></tr>
+        <tr><th scope="row">Channel slope</th><td>2% (40 mm over 2,000 mm) · 1–3 mm laminar film</td></tr>
+        <tr><th scope="row">Monitoring</th><td>Independent pH, EC and temperature probes per loop, with automated alerts</td></tr>
+        <tr><th scope="row">Rotation</th><td>Cohort moves up every 20–27 days · 13.5 to 18.25 harvests per year depending on cultivar</td></tr>
+        <tr><th scope="row">Lighting</th><td>Farm: sunlight + automatic LED top-up · Inside: per-level full-spectrum LED</td></tr>
+        <tr><th scope="row">Water</th><td>&gt; 80% less water than soil-based growing</td></tr>
+        <tr><th scope="row">Post-harvest</th><td>Fresh-frozen at −38 / −40 °C</td></tr>
+        <tr><th scope="row">Intellectual property</th><td>Patent application · OMPIC (Morocco) · PCT extension planned · IPC A01G31/02</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ IMPACT ═══ -->
+<section id="impact">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Built for cooperatives</span>
+      <h2>Modern farming, <em>rooted in the Rif.</em></h2>
+      <p class="lead">HydroLoop was designed in Taounate to help Moroccan cooperatives produce more value per square metre with less water — and to create skilled jobs for young people in rural areas.</p>
+    </div>
+    <div class="impact">
+      <div class="card reveal"><b>× 3</b><h3>Growing area</h3><p>Three levels on the same footprint, so limited land produces more.</p></div>
+      <div class="card reveal"><b>− 80%</b><h3>Water use</h3><p>A closed loop with no drainage to soil or groundwater — critical in a drought-exposed region.</p></div>
+      <div class="card reveal"><b>2–3</b><h3>Direct jobs per module</h3><p>Hydroponics technicians, quality and traceability officers, harvest and maintenance staff.</p></div>
+    </div>
+    <div class="regions reveal">Target provinces: <span>Al Hoceima</span><span>Chefchaouen</span><span>Taounate</span><span>Tétouan</span></div>
+  </div>
+</section>
+
+<!-- ═══ ROADMAP ═══ -->
+<section class="sec-pale" id="roadmap">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Roadmap</span>
+      <h2>From pilot <em>to a regional network.</em></h2>
+    </div>
+    <div class="roadmap">
+      <article class="phase-card reveal" style="--c:var(--l1)">
+        <span class="when">PHASE 1 · 2026</span>
+        <h3>Pilot</h3>
+        <ul>
+          <li>Partner cooperative identified</li>
+          <li>3 pilot modules installed</li>
+          <li>First technicians trained</li>
+          <li>First production cycles, growing protocols validated</li>
+        </ul>
+      </article>
+      <article class="phase-card reveal" style="--c:var(--l2)">
+        <span class="when">PHASE 2 · YEAR 2</span>
+        <h3>Validation</h3>
+        <ul>
+          <li>Agronomic monitoring and protocol tuning</li>
+          <li>Economic model validated on real data</li>
+          <li>Commercial partnerships secured</li>
+          <li>Quality certifications requested</li>
+        </ul>
+      </article>
+      <article class="phase-card reveal" style="--c:var(--l3)">
+        <span class="when">PHASE 3 · YEARS 3–5</span>
+        <h3>Regional rollout</h3>
+        <ul>
+          <li>Extension to other Rif cooperatives</li>
+          <li>A regional HydroLoop network</li>
+          <li>Target: 50 modules across 5 provinces</li>
+          <li>An integrated value chain and a collective brand</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div class="reveal">
+        <span class="eyebrow">Get in touch</span>
+        <h2>Let's grow <em>together.</em></h2>
+        <p class="lead">Cooperatives, investors, research institutes and regulated buyers: we'd be glad to show you the module, the app and the pilot plan.</p>
+        <div class="audience"><span>Cooperatives</span><span>Investors</span><span>INRA · IAV Hassan II</span><span>Licensed operators</span><span>Funding bodies</span></div>
+        <div class="founder">
+          <span class="av" aria-hidden="true">AA</span>
+          <div><b>Ahmed Akafou</b><span>Inventor &amp; founder · Amiouri Seeds · Taounate, Morocco</span></div>
+        </div>
+      </div>
+      <div class="contact-box reveal">
+        <a href="mailto:contact@amiouriseeds.com?subject=HydroLoop%20Farm">
+          <div><small>Email</small><strong>contact@amiouriseeds.com</strong></div>
+          <svg class="arr" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="tel:+212641487497">
+          <div><small>Phone</small><strong>+212 641 487 497</strong></div>
+          <svg class="arr" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="https://wa.me/212641487497" target="_blank" rel="noopener">
+          <div><small>WhatsApp</small><strong>Message us</strong></div>
+          <svg class="arr" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="year">2026</span> HydroLoop Farm · Amiouri Seeds · Made in Morocco</span>
+    <nav>
+      <a href="#module">Module</a>
+      <a href="#app">App</a>
+      <a href="#specs">Specs</a>
+      <a href="hydroloop-farm-bilingue.html" hreflang="fr">Version française</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+document.body.classList.remove('no-js');
+
+// Nav
+const nav = document.getElementById('nav');
+const toggle = document.getElementById('navToggle');
+addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 8), { passive: true });
+toggle.addEventListener('click', () => {
+  const open = nav.classList.toggle('open');
+  toggle.setAttribute('aria-expanded', open);
+});
+document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => {
+  nav.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false');
+}));
+
+// Reveal on scroll
+const io = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { rootMargin: '0px 0px -8% 0px' }) : null;
+document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// Rotation simulator (20-day interval, germination 10 days)
+(() => {
+  const STEP = 20, GERM = 10;
+  const range = document.getElementById('simRange');
+  const play = document.getElementById('simPlay');
+  const dayEl = document.getElementById('simDay');
+  const fills = [...document.querySelectorAll('.sim-fill')];
+  const txts = [...document.querySelectorAll('.sim-txt')];
+  // Stage s (0 nursery, 1..3 levels): cohort c occupies it from start(c,s) for STEP days (nursery: GERM days)
+  const start = (c, s) => s === 0 ? STEP * c : STEP * c + GERM + STEP * (s - 1);
+  const len = s => s === 0 ? GERM : STEP;
+
+  function render(d) {
+    dayEl.textContent = d;
+    for (let s = 0; s <= 3; s++) {
+      const c = Math.floor((d - start(0, s)) / STEP);
+      const t = c >= 0 ? d - start(c, s) : -1;
+      const fill = fills.find(f => +f.dataset.l === s);
+      const txt = txts.find(x => +x.dataset.t === s);
+      if (c >= 0 && t < len(s)) {
+        fill.style.width = ((t + 1) / len(s) * 100) + '%';
+        txt.innerHTML = `<span>Cohort ${c + 1}</span><span>day ${t + 1}/${len(s)}</span>`;
+      } else {
+        fill.style.width = '0%';
+        txt.innerHTML = `<span style="opacity:.45">${s === 0 ? 'waiting for next sowing' : 'filling…'}</span><span></span>`;
+      }
+    }
+    const firstHarvest = GERM + 3 * STEP;
+    const harvests = d >= firstHarvest ? Math.floor((d - firstHarvest) / STEP) + 1 : 0;
+    document.getElementById('simHarv').textContent = harvests;
+    document.getElementById('simIn').textContent = Math.floor(d / STEP) + 1;
+    const next = d < firstHarvest ? firstHarvest - d : STEP - ((d - firstHarvest) % STEP);
+    document.getElementById('simNext').textContent = next;
+  }
+
+  let timer = null;
+  function stop() { clearInterval(timer); timer = null; play.textContent = '▶ Play'; }
+  play.addEventListener('click', () => {
+    if (timer) return stop();
+    if (+range.value >= +range.max) range.value = 0;
+    play.textContent = '❚❚ Pause';
+    timer = setInterval(() => {
+      const v = +range.value + 1;
+      range.value = v; render(v);
+      if (v >= +range.max) stop();
+    }, 90);
+  });
+  range.addEventListener('input', () => { stop(); render(+range.value); });
+  render(+range.value);
+})();
+</script>
+</body>
+</html>
