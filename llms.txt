@@ -5,7 +5,7 @@
 Key facts:
 
 - Designer and patent holder: Ahmed Akafou. Patent application filed with OMPIC (Morocco); PCT extension planned; IPC A01G31/02.
-- App developer: AIWorkPay.
+- App developer: AIWorkPay. App URL: https://app.hydroloopfarm.com (sign-in required; access provided with each module).
 - Contact: contact@aiworkpay.fr · +33 6 02 40 51 47 (phone and WhatsApp).
 - Module: 3 levels (200 / 300 / 400 mm channels), 16 plants per level, 48 per module; reservoirs 100 / 50 / 50 L; EC 1.2–1.6 / 1.8–2.2 / 2.4–2.8 mS/cm; 2% channel slope.
 - Rotation: germination days 0–9 off-module, level 1 from day 10, then one level up every 20–27 days; 13.5–18.25 harvests per year.
@@ -13,7 +13,7 @@ Key facts:
 - Versions: HydroLoop Farm (heated greenhouse, sunlight + automatic LED top-up, 24–28 °C) and HydroLoop Inside (opaque room or container, per-level full-spectrum LED, sensors).
 - Traceability: Taqnin ID Batch identifier per cohort; GACP, pre-GMP ready, ANRAC (Law 13-21), ONSSA.
 - Target region: cooperatives in the Rif (Al Hoceima, Chefchaouen, Taounate, Tétouan), Morocco.
-- Not stated on this site: prices, yields per plant and a public app URL. Ask by email for these.
+- Not stated on this site: prices and yields per plant. Ask by email for these.
 
 ## Pages
 
@@ -23,5 +23,6 @@ Key facts:
 
 ## Actions
 
+- [Open the HydroLoop Farm Manager app](https://app.hydroloopfarm.com): seed-to-batch crop tracking (sign-in required)
 - [Contact by email](mailto:contact@aiworkpay.fr?subject=HydroLoop%20Farm): for demos, partnerships, pricing and app access
 - [Contact by WhatsApp](https://wa.me/33602405147)

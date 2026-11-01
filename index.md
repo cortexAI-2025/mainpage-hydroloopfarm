@@ -5,6 +5,7 @@ language: en
 updated: 2026-10-04
 designer_and_patent_holder: Ahmed Akafou
 app_developer: AIWorkPay
+app_url: https://app.hydroloopfarm.com
 contact_email: contact@aiworkpay.fr
 contact_phone: "+33602405147"
 ---
@@ -90,7 +91,7 @@ Developed by **AIWorkPay**. A web app that installs on any phone (PWA).
 - **Works offline:** keeps working without signal; syncs to the cloud when the connection returns.
 - **Secure access:** login-protected.
 
-A public app URL is not published yet. Request access at contact@aiworkpay.fr.
+**Open the app:** [app.hydroloopfarm.com](https://app.hydroloopfarm.com) — sign-in is provided with each module; request access at contact@aiworkpay.fr.
 
 ## Traceability and compliance
 
@@ -165,7 +166,7 @@ Both share the same frame, loops and rotation. HydroLoop Farm runs in a heated g
 
 ### What does the companion app do?
 
-The HydroLoop Farm Manager, developed by AIWorkPay, logs each batch from seed to harvest, raises alerts on pH, EC, dissolved oxygen, solution temperature and NFT flow, produces an AI agronomy report, predicts the harvest window, generates a QR code per batch, shows analytics and works offline with cloud sync.
+The HydroLoop Farm Manager, developed by AIWorkPay, logs each batch from seed to harvest, raises alerts on pH, EC, dissolved oxygen, solution temperature and NFT flow, produces an AI agronomy report, predicts the harvest window, generates a QR code per batch, shows analytics and works offline with cloud sync. It is available at https://app.hydroloopfarm.com.
 
 ### How is traceability handled?
 
@@ -179,6 +180,7 @@ Email contact@aiworkpay.fr or call / WhatsApp +33 6 02 40 51 47.
 
 - **Email:** [contact@aiworkpay.fr](mailto:contact@aiworkpay.fr?subject=HydroLoop%20Farm)
 - **Phone:** [+33 6 02 40 51 47](tel:+33602405147)
+- **App:** [app.hydroloopfarm.com](https://app.hydroloopfarm.com)
 - **WhatsApp:** [wa.me/33602405147](https://wa.me/33602405147)
 
 Credits: concept, design and patent by **Ahmed Akafou**; HydroLoop Farm Manager app by **AIWorkPay**. Made in Morocco.
